@@ -1,0 +1,15 @@
+#
+# this is the config mode for danwand
+#
+# 220402 PLH    First version
+#
+
+[Unit]
+Description=Danwand Config Mode
+Documentation=http://doc.danbots.com/mode/config.html
+#sRequires=hostapd.service dnsmasq.service
+Conflicts=dhcpcd.service wpa_supplicant.service
+#Requires=basic.target
+#Wants=
+#After=sysinit.target rescue.service
+#AllowIsolate=yes
