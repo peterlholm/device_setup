@@ -59,8 +59,11 @@ website:
 	@echo "Installing config site"
 	rm -fr /var/www/config
 	cp -r ./config_site /var/www/config
+	chown -R pi:www-data /var/www/config
 	cp ./config_files/apache/config.conf /etc/apache2/sites-available
 	a2ensite config.conf
+	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
+	
 
 configmode:	hotspot
 	@echo "Installing configmode"

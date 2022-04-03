@@ -6,13 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Danwand Configuration</title>
-  <!-- <link rel="manifest" href="/manifest.json" crossorigin="use-credentials"> -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/css/site.css" />
 </head>
 
 <body>
+  <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">DanWand</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -66,6 +66,7 @@
     </form>
 
     Finito
+</div>
     <script src="/js/bootstrap.min.js"></script>
 
 </body>
