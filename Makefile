@@ -62,6 +62,7 @@ website:
 	chown -R pi:www-data /var/www/config
 	cp ./config_files/apache/config.conf /etc/apache2/sites-available
 	a2ensite config.conf
+	systemctl reload apache2
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 	
 
