@@ -50,7 +50,11 @@ function read_config_file($file, &$ssid, &$passphrase)
 # internet
 function internet_connection()
 {
-    $out = exec('ping -w 500 -n 1 8.8.8.8', $output, $res);
+    global $windows;
+    if ($windows) 
+        $out = exec('ping -w 500 -n 1 8.8.8.8', $output, $res);
+    else
+        $out = exec('ping -w 1 -c 1 8.8.8.8', $output, $res);
     #print ("res ".$res);
     #print $out;
     if ($res) return "Not OK";

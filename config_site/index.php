@@ -87,14 +87,14 @@
           <?php echo get_ip_address()?>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <!-- <div class="row justify-content-center">
         <div class="col-4">
           <label>Router</label>
         </div>
         <div class="col-4">
           192.168.1.1
         </div>
-      </div>
+      </div> -->
       <div class="row justify-content-center">
         <div class="col-4">
           <label>Internet</label>
