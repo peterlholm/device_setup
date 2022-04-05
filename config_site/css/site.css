@@ -1,4 +1,14 @@
+/* danwand config website */
 
-.navbar-light {
-    background-color: #e3f2fd;
+.navbar {
+    background-color: #8098f0;
+}
+
+.background-wand {
+    height: 400px;
+    background-color: pink;
+    background: url("/pic/danwand_trans_light.png") no-repeat;
+    background-position: center;
+    /* opacity: 0.3; */
+    /* background-size: cover; */
 }
