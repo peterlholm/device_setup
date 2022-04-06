@@ -81,6 +81,17 @@ debugtools:
 
 config-raspian:
 	timedatectl set-timezone Europe/Copenhagen
+	@echo "disable bluetooth"
+	systemctl disable hciuart.service
+	systemctl stop hciuart.service
+	@#systemctl disable bluealsa.service
+	systemctl disable bluetooth.service
+	systemctl stop bluetooth.service
+
+	@#systemctl disable cups.service
+	@#systemctl disable cups-browsed.service
+	@# dtoverlay=pi3-disable-bt
+
 
 install: config-raspbian apache website
 	@echo "Installing all for Operation"
