@@ -18,7 +18,7 @@ help :
 	@echo "Use the following commands:\n"
 	@echo "make install\tinstall all required basis sw"
 	@echo "make apache\tinstall and configure apache modules"
-
+	@echo "make console\tConfigure console for hdmi and keyboard for DK"
 	@echo "make disable-services\tdisable unused raspbian services"
 	@echo "make service\tinstall register service"
 	@echo "make python\tinstall Phython requirements"
@@ -26,7 +26,7 @@ help :
 	@echo "make changehostname\tset new hostname"
 	@echo "make user\tcreate users"
 	@echo "make website\tinstall website"
-	@echo "make debug\tinstall debug sw"
+	@echo "make debugtools\tinstall debug sw"
 	@echo "make hotspot\tcreate hostapd hotspot"
 
 hotspot:
@@ -70,5 +70,17 @@ configmode:	hotspot
 	@echo "Installing configmode"
 	cp ./config_files/systemd/danwand_config.target /etc/systemd/system
 
-install: apache website
+console:
+	@echo "enable console"
+	sed -i /etc/default/keyboard -e "s/^XKBLAYOUT.*/XKBLAYOUT=\"dk\"/"
+	sed -i /boot/config.txt -e "s/^#config_hdmi_boost.*/#config_hdmi_boost=4/"
 
+debugtools:
+	@echo "Installing debug tools"
+	apt install aptitude
+
+config-raspian:
+	timedatectl set-timezone Europe/Copenhagen
+
+install: config-raspbian apache website
+	@echo "Installing all for Operation"
