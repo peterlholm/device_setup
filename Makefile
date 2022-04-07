@@ -32,16 +32,16 @@ help :
 hostapd:
 	@echo "Installing hotspot"
 	apt install hostapd
-	#systemctl stop hostapd
-	#systemctl disable hostapd
+	systemctl stop hostapd
+	systemctl disable hostapd
 	cp ./config_files/systemd/hostapd.conf /etc/hostapd/hostapd.conf
 
 dnsmasq:
 	@echo "Installing dnsmasq"
 	apt install dnsmasq
-	#systemctl stop dnsmasq
-	#systemctl unmask dnsmasq
-	#systemctl disable dnsmasq
+	systemctl stop dnsmasq
+	systemctl unmask dnsmasq
+	systemctl disable dnsmasq
 	cp ./config_files/systemd/dnsmasq.conf /etc/dsmasq.conf
 
 apache:

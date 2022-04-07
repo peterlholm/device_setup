@@ -15,3 +15,7 @@ Conflicts=resque.service resque.target dhcpcd.service wpa_supplicant.service
 #Wants=
 After=basic.target rescue.service rescue.target
 #AllowIsolate=yes
+Type=forking
+ExecStart=/usr/sbin/dbcpcd -b -q -f /etc/dhcpcd-danwand.conf 
+Restart=always
+
