@@ -11,7 +11,7 @@ WEBSITEDIR=/var/www/danwand
 
 default:
 	@echo "make install\tinstall sw and set default config"
-	@echo "make raspbian\tConfigure raspbian for danwand and stop unused service"
+	@echo "make raspbian-config\tConfigure raspbian for danwand and stop unused service"
 	@echo "make help\tDisplay alternative options"
 
 help :
@@ -29,7 +29,7 @@ help :
 	@echo "make debugtools\tinstall debug sw"
 	@echo "make hotspot\tcreate hostapd hotspot"
 
-hotspot:
+hostapd:
 	@echo "Installing hotspot"
 	apt install hostapd
 	#systemctl stop hostapd
@@ -42,7 +42,7 @@ dnsmasq:
 	#systemctl stop dnsmasq
 	#systemctl unmask dnsmasq
 	#systemctl disable dnsmasq
-	cp ./config_files/dnsmasq.conf /etc/dsmasq.conf
+	cp ./config_files/systemd/dnsmasq.conf /etc/dsmasq.conf
 
 apache:
 	@echo "Installing Apache Webserver"
@@ -66,20 +66,20 @@ website:
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 	
 
-configmode:	hotspot
+configmode:	hostapd dnsmasq
 	@echo "Installing configmode"
 	cp ./config_files/systemd/danwand_config.target /etc/systemd/system
 
 console:
 	@echo "enable console"
 	sed -i /etc/default/keyboard -e "s/^XKBLAYOUT.*/XKBLAYOUT=\"dk\"/"
-	sed -i /boot/config.txt -e "s/^#config_hdmi_boost.*/#config_hdmi_boost=4/"
+	sed -i /boot/config.txt -e "s/^#config_hdmi_boost.*/config_hdmi_boost=4/"
 
 debugtools:
 	@echo "Installing debug tools"
 	apt install aptitude
 
-config-raspian:
+raspian-config:
 	timedatectl set-timezone Europe/Copenhagen
 	@echo "disable bluetooth"
 	systemctl disable hciuart.service

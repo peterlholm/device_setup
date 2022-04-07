@@ -7,10 +7,11 @@
 [Unit]
 Description=Danwand Config Mode
 Documentation=http://doc.danbots.com/mode/config.html
-#Requires=hostapd.service
+Requires=basic.target
+Requires=hostapd.service
 #Requires=hostapd.service dnsmasq.service
-Conflicts=dhcpcd.service wpa_supplicant.service
+Conflicts=resque.service resque.target dhcpcd.service wpa_supplicant.service
 #Requires=basic.target
 #Wants=
-#After=sysinit.target rescue.service
+After=basic.target rescue.service rescue.target
 #AllowIsolate=yes
