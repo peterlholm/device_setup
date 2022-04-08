@@ -1,0 +1,19 @@
+#!/bin/python3
+#
+# Danwand Config Mode
+#
+#   220408  PLH First version
+#
+import os
+import datetime
+import subprocess
+from tabnanny import check
+
+def get_active_wifi_stations():
+    out = subprocess.check_output("iw dev wlan0 station dump ", check=True)
+
+print(datetime.datetime.now(), "danWand config starting")
+
+# iw dev wlan0 station dump 
+
+print(datetime.datetime.now(), "danWand config ending")
