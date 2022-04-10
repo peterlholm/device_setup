@@ -81,7 +81,7 @@ debugtools:
 	@echo "Installing debug tools"
 	apt install aptitude
 
-raspian-config:
+raspbian-config:
 	timedatectl set-timezone Europe/Copenhagen
 	@echo "disable bluetooth"
 	systemctl disable hciuart.service
@@ -95,5 +95,5 @@ raspian-config:
 	@# dtoverlay=pi3-disable-bt
 
 
-install: config-raspbian apache website console  configmode
+install: raspbian-config apache website console  configmode
 	@echo "Installing all for Operation"
