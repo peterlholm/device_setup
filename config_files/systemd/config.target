@@ -18,4 +18,4 @@ After=basic.target rescue.service rescue.target
 #Type=forking
 #ExecStart=/usr/sbin/dbcpcd -b -q -f /etc/dhcpcd-danwand.conf 
 #Restart=always
-
+Restart=no

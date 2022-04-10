@@ -31,10 +31,12 @@ help :
 
 hostapd:
 	@echo "Installing hotspot"
+	rfkill unblock wlan
 	apt install hostapd
 	systemctl stop hostapd
 	systemctl disable hostapd
 	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
+	systemctl unmask hostapd
 
 dnsmasq:
 	@echo "Installing dnsmasq"
@@ -63,13 +65,14 @@ website:
 	cp ./config_files/apache/config.conf /etc/apache2/sites-available
 	a2ensite config.conf
 	systemctl reload apache2
+	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 	
 
 configmode:	hostapd dnsmasq
 	@echo "Installing Configmode files"
 	cp ./config_files/systemd/* /etc/systemd/system
-	cp -r ./bin/local_danwand/* /usr/local/bin
+	cp -r ./bin/local/danwand/* /usr/local/bin
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
 
 console:
@@ -96,4 +99,4 @@ raspbian-config:
 
 
 install: raspbian-config apache website console  configmode
-	@echo "Installing all for Operation"
+	@echo "All SW Installed"
