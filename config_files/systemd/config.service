@@ -23,11 +23,12 @@ StartLimitIntervalSec=30
 
 [Service]
 Type=simple
-Restart=always
+Restart=on-failure
 RestartSec=10
 User=pi
 Environment=PYTHONUNBUFFERED=1
-StandardOutput=append:/var/log/config_service.log
-ExecStart=/home/pi/device_setup/bin/danwand_config  
+#StandardOutput=append:/var/log/config_service.log
+StandardOutput=journal
+ExecStart=/usr/local/bin/danwand/config_service  
 WorkingDirectory=/tmp
 

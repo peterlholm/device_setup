@@ -34,7 +34,7 @@ hostapd:
 	apt install hostapd
 	systemctl stop hostapd
 	systemctl disable hostapd
-	cp ./config_files/systemd/hostapd.conf /etc/hostapd/hostapd.conf
+	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
 
 dnsmasq:
 	@echo "Installing dnsmasq"
@@ -42,7 +42,7 @@ dnsmasq:
 	systemctl stop dnsmasq
 	systemctl unmask dnsmasq
 	systemctl disable dnsmasq
-	cp ./config_files/systemd/dnsmasq.conf /etc/dsmasq.conf
+	cp ./config_files/etc/dnsmasq.conf /etc/dsmasq.conf
 
 apache:
 	@echo "Installing Apache Webserver"
@@ -67,8 +67,10 @@ website:
 	
 
 configmode:	hostapd dnsmasq
-	@echo "Installing configmode"
-	cp ./config_files/systemd/danwand_config.target /etc/systemd/system
+	@echo "Installing Configmode files"
+	cp ./config_files/systemd/* /etc/systemd/system
+	cp -r ./bin/local_danwand/* /usr/local/bin
+	cp ./config_files/etc/dw_dhcpcd.conf /etc
 
 console:
 	@echo "enable console"
@@ -93,5 +95,5 @@ raspian-config:
 	@# dtoverlay=pi3-disable-bt
 
 
-install: config-raspbian apache website
+install: config-raspbian apache website console  configmode
 	@echo "Installing all for Operation"

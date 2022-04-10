@@ -1,0 +1,56 @@
+#!/bin/python3
+#
+# Danwand Config Mode
+#
+#   220408  PLH First version
+#
+import os
+import sys
+import datetime
+import time
+import subprocess
+from pathlib import Path
+
+# pylint: disable=missing-module-docstring,missing-function-docstring
+
+REBOOT_NOUSER_SECONDS = 60  # 5 min
+REBOOT_USER_SECONDS = 600   # 10 min
+USER_ACTIVE_FILE = Path('/tmp/user_active')
+REBOOT= True
+
+def get_active_wifi_stations():
+    print(os.name)
+    if os.name != "nt":
+        out = subprocess.check_output("iw dev wlan0 station dump | grep Stations ", shell=True)
+    else:
+        out = "windows"
+    return out
+
+if len(sys.argv)>1:
+    if sys.argv[1] == "noreboot":
+        REBOOT=False
+    
+print(datetime.datetime.now(), "danWand config starting")
+
+#active_wifi = get_active_wifi_stations()
+#print(active_wifi)
+
+# loop in X min for user login - after that reboot
+
+starttime = time.time()
+endtime = starttime + REBOOT_NOUSER_SECONDS
+
+while time.time() < endtime:
+    print("Checkking")
+    if USER_ACTIVE_FILE.exists():
+        print('User found')
+        endtime = starttime + REBOOT_USER_SECONDS
+    else:
+        print('no_user')
+        endtime = starttime + REBOOT_NOUSER_SECONDS
+    time.sleep(10)
+
+print(datetime.datetime.now(), "Rebooting system")
+
+if REBOOT:
+    subprocess.run('sudo systemctl --message="Config rebooting" reboot', shell=True, check=False)
