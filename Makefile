@@ -44,7 +44,7 @@ dnsmasq:
 	systemctl stop dnsmasq
 	systemctl unmask dnsmasq
 	systemctl disable dnsmasq
-	cp ./config_files/etc/dnsmasq.conf /etc/dsmasq.conf
+	cp ./config_files/etc/dnsmasq.conf /etc/dnsmasq.d/danwand.conf
 
 apache:
 	@echo "Installing Apache Webserver"
