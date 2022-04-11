@@ -1,9 +1,9 @@
 [Unit]
 Description=DHCP Client Daemon AccesPoint
+Documentation=man:dhcpcd(8)
+
 Wants=network.target
 Before=network-online.target hostapd.service
-
-Documentation=man:dhcpcd(8)
 
 [Service]
 Type=forking
