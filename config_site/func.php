@@ -69,11 +69,12 @@ function get_ap_list()
     unset($output);
     // $cmd = 'wpa_cli scan_result | cut -f5';
     // $cmd = '/sbin/wpa_cli scan_result  ';
-    //$cmd = "iwlist | sed -e '/ESSID/s/.*ESSID:"\(.*\)".*/p'";
-    // $r =    exec($cmd, $output, $result);
-    // echo "Result: $result r: $r\n";
-    // print_r($output);
-    return ["nr1","nr2"];
+    $cmd = "iwlist wlan0 scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p' . "'";
+    echo $cmd;
+    $r =    exec($cmd, $output, $result);
+    echo "Result: $result r: $r\n";
+    print_r($output);
+    //return ["nr1","nr2"];
     return $output;
 }
 

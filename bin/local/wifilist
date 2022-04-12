@@ -3,6 +3,6 @@
 # generate list of wifi
 #
 
-WIFILIST=`iwlist | sed -e '/ESSID/s/.*ESSID:"\(.*\)".*/p'`
+WIFILIST=`iwlist wlan0 scan | sed -n -e '/ESSID/s/.*ESSID:"\(.*\)".*/\1/p'`
 echo $WIFILIST
 
