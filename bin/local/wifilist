@@ -4,5 +4,8 @@
 #
 
 WIFILIST=`iwlist wlan0 scan | sed -n -e '/ESSID/s/.*ESSID:"\(.*\)".*/\1/p'`
+
+#WIFILIST=`iwlist wlan0 scan | sed -n -e '/ESSID/s/.*ESSID:"\(.*\)".*/\1/p' -e '/Signal/s/.*ESSID:"\(.*\)".*/\1/p' `
+
 echo $WIFILIST
 

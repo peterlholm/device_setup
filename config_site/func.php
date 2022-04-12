@@ -70,12 +70,11 @@ function get_ap_list()
     // $cmd = 'wpa_cli scan_result | cut -f5';
     // $cmd = '/sbin/wpa_cli scan_result  ';
     $cmd = "iwlist wlan0 scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p' . "'";
-    echo $cmd;
+    //echo $cmd;
     $r =    exec($cmd, $output, $result);
-    echo "Result: $result r: $r\n";
-    print_r($output);
-    //return ["nr1","nr2"];
-    return $output;
+    // echo "Result: $result r: $r\n";
+    // print_r($output);
+    return array_unique($output);
 }
 
 function get_wifi_list() 

@@ -75,7 +75,7 @@ website:
 configmode:	hostapd dnsmasq
 	@echo "Installing Configmode files"
 	cp ./config_files/systemd/* /etc/systemd/system
-	cp -r ./bin/local/ /usr/local/bin/
+	cp -r ./bin/local/* /usr/local/bin/
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
 
 console:
