@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# generate list of wifi
+#
+
+WIFILIST=`iwlist | sed -e '/ESSID/s/.*ESSID:"\(.*\)".*/p'`
+echo $WIFILIST
+

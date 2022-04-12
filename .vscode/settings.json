@@ -1,7 +1,7 @@
 
 {
-"liveServer.settings.root": "/config_site",
-"phpserver.relativePath": "./config_site",
+"liveServer.settings.root": "./config_site",
+"phpserver.relativePath": "./config_site/",
 "python.linting.pylintEnabled": true,
 "python.linting.enabled": true
 }

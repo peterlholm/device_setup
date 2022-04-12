@@ -7,8 +7,10 @@
 .background-wand {
     height: 400px;
     background-color: pink;
-    background: url("/pic/danwand_trans_light.png") no-repeat;
+    background: url("/pic/DW1-bw.png") no-repeat;
     background-position: center;
-    /* opacity: 0.3; */
+    background-size: contain;
+    bac
+    opacity: 0.3;
     /* background-size: cover; */
 }

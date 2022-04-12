@@ -22,7 +22,8 @@
         <img src="/pic/db_logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
         danWand
       </a>&nbsp;
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -32,14 +33,21 @@
             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/wifi.php">WiFi Configuration</a>
+            <a class="nav-link" href="/wifi.php">WiFi Configuration</a>
           </li>
-
+          <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="/admin/advanced.php">Advanced</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Change password</a>
+            <a class="nav-link disabled" href="#">Debug</a>
           </li>
         </ul>
       </div>
@@ -56,12 +64,12 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <!-- <div class="col-4">
+        <div class="col-4">
           <label>ETH Mac Address</label>
         </div>
         <div class="col-4">
           <?php echo get_eth_mac() ?>
-        </div> -->
+        </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-4">
@@ -76,21 +84,34 @@
           <label>IP Address</label>
         </div>
         <div class="col-4">
-          <?php echo get_ip_address() ?>
+          <?php echo get_ip_address()?>
         </div>
       </div>
-
+      <!-- <div class="row justify-content-center">
+        <div class="col-4">
+          <label>Router</label>
+        </div>
+        <div class="col-4">
+          192.168.1.1
+        </div>
+      </div> -->
       <div class="row justify-content-center">
         <div class="col-4">
           <label>Internet</label>
         </div>
         <div class="col-4">
-          <?= internet_connection() ?>
+          <?=internet_connection()?>
         </div>
       </div>
       <div class="row justify-content-center">
+        <div class="col-4">
+          <label>HW info</label>
+        </div>
+        <div class="col-4">
+          <?=get_hw_info()?>
+        </div>
       </div>
-    </div>
+   </div>
   </div>
   <script src="/js/bootstrap.min.js"></script>
 

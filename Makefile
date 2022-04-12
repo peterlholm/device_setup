@@ -52,7 +52,10 @@ apache:
 	# allow apache to use camera and exec sudo
 	usermod -aG video www-data
 	usermod -aG sudo www-data
-	test -f /etc/sudoers.d/020_www-data || echo "www-data ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_www-data
+	cp ./config_files/apache/020_www-data /etc/sudoers.d/
+	cp ./config_files/apache/passwords /etc/apache2/
+	cp ./config_files/apache/groups /etc/apache2/
+	#test -f /etc/sudoers.d/020_www-data || echo "www-data ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_www-data
 	#systemctl stop apache2
 	a2dissite 000-default
 	systemctl restart apache2

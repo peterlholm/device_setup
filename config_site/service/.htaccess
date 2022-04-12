@@ -1,0 +1,5 @@
+AuthType Service
+AuthName "Password Required"
+AuthUserFile "/etc/apache2/passwords"
+AuthGroupFile "/etc/apache2/groups"
+Require group service
