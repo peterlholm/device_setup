@@ -16,6 +16,7 @@ from pathlib import Path
 REBOOT_NOUSER_SECONDS = 60  # 5 min
 REBOOT_USER_SECONDS = 600   # 10 min
 USER_ACTIVE_FILE = Path('/tmp/user_active')
+DANWAND_SERVICE = Path('/usr/local/bin/danwand/danwand_service')
 REBOOT= True
 
 def get_active_wifi_stations():
@@ -31,6 +32,10 @@ if len(sys.argv)>1:
         REBOOT=False
     
 print(datetime.datetime.now(), "danWand config starting")
+
+if not DANWAND_SERVICE.exists():
+    subprocess.run('sudo systemctl set-default config.target')
+    #subprocess.run('sudo systemctl set-default multi-user.target
 
 #active_wifi = get_active_wifi_stations()
 #print(active_wifi)
