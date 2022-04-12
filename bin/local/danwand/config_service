@@ -33,8 +33,8 @@ if len(sys.argv)>1:
     
 print(datetime.datetime.now(), "danWand config starting")
 
-if not DANWAND_SERVICE.exists():
-    subprocess.run('sudo systemctl set-default config.target')
+# if not DANWAND_SERVICE.exists():
+#     subprocess.run('sudo systemctl set-default config.target')
     #subprocess.run('sudo systemctl set-default multi-user.target
 
 #active_wifi = get_active_wifi_stations()
