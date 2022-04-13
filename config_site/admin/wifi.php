@@ -90,7 +90,7 @@
             <div class="form-group row">
               <label for="exampleInputPassword1" class="col-sm-3 col-form-label">Passphrase</label>
               <div class="col-sm-7">
-                <input type="password" class="form-control" id="exampleInputPassword1" name="passphrase">
+                <input type="text" class="form-control" id="exampleInputPassword1" name="passphrase">
               </div>
               <div class="col-sm-2">
                 <button type="submit" class="btn btn-primary" name="submit" value="savessid">Submit</button>

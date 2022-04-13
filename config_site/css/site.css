@@ -7,10 +7,9 @@
 .background-wand {
     height: 400px;
     background-color: pink;
-    background: url("/pic/DW1-bw.png") no-repeat;
+    background: url("/pic/dW1-bw.png") no-repeat;
     background-position: center;
     background-size: contain;
-    bac
-    opacity: 0.3;
+    /* opacity: 0.3; */
     /* background-size: cover; */
 }

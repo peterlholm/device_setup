@@ -48,7 +48,7 @@ dnsmasq:
 
 apache:
 	@echo "Installing Apache Webserver"
-	apt install apache2 php libapache2-mod-php
+	apt install apache2 php libapache2-mod-p
 	# allow apache to use camera and exec sudo
 	usermod -aG video www-data
 	usermod -aG sudo www-data
@@ -64,8 +64,9 @@ website:
 	@echo "Installing config site"
 	rm -fr /var/www/config
 	cp -r ./config_site /var/www/config
-	chown -R pi:www-data /var/www/config
+	chgrp -R www-data /var/www/config
 	cp ./config_files/apache/config.conf /etc/apache2/sites-available
+	a2enmod authz_groupfile
 	a2ensite config.conf
 	systemctl reload apache2
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
@@ -82,6 +83,7 @@ console:
 	@echo "enable console"
 	sed -i /etc/default/keyboard -e "s/^XKBLAYOUT.*/XKBLAYOUT=\"dk\"/"
 	sed -i /boot/config.txt -e "s/^#config_hdmi_boost.*/config_hdmi_boost=4/"
+	@echo "You need to reboot before changes appear"
 
 debugtools:
 	@echo "Installing debug tools"
