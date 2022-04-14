@@ -48,7 +48,7 @@ dnsmasq:
 
 apache:
 	@echo "Installing Apache Webserver"
-	apt install apache2 php libapache2-mod-p
+	apt install apache2 php libapache2-mod-php
 	# allow apache to use camera and exec sudo
 	usermod -aG video www-data
 	usermod -aG sudo www-data

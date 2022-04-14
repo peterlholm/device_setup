@@ -18,7 +18,7 @@
   ?>
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark xbg-primary">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="/#">
         <img src="/pic/db_logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
         danWand
       </a>&nbsp;
@@ -34,7 +34,6 @@
           <li class="nav-item">
             <a class="nav-link" href="/admin/wifi.php">WiFi Configuration</a>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" href="/admin/advanced.php">Advanced</a>
           </li>

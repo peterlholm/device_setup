@@ -38,7 +38,7 @@
             <a class="nav-link active" href="/admin/wifi.php">WiFi Configuration</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Advanced</a>
+            <a class="nav-link" href="/admin/advanced.php">Advanced</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Change password</a>

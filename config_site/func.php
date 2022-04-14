@@ -22,6 +22,8 @@ function get_hw_info()
 
 function get_ip_address()
 {
+    global $windows;
+    if ($windows) return("Unknown");
     return($_SERVER['SERVER_ADDR']);
 }
 
