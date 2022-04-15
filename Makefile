@@ -19,16 +19,26 @@ help :
 	@echo "make install\tinstall all required basis sw"
 	@echo "make apache\tinstall and configure apache modules"
 	@echo "make console\tConfigure console for hdmi and keyboard for DK"
-	@echo "make disable-services\tdisable unused raspbian services"
+	@echo "make raspbian-config\tdisable unused raspbian services"
+	@echo "make ipv6-disable\t,Disable ipv6"
+	@echo "make website\tinstall website"
+	@echo "--"
 	@echo "make service\tinstall register service"
 	@echo "make python\tinstall Phython requirements"
 	@echo "make hostname\tset hostname and time zone"
 	@echo "make changehostname\tset new hostname"
 	@echo "make user\tcreate users"
-	@echo "make website\tinstall website"
+	
 	@echo "make debugtools\tinstall debug sw"
 	@echo "make hotspot\tcreate hostapd hotspot"
 
+
+ipv6_disable:
+	echo "net.ipv6.conf.all.disable_ipv6=0" >>/etc/sysctl.conf
+	echo "net.ipv6.conf.default.disable_ipv6=0" >>/etc/sysctl.conf
+	echo "net.ipv6.conf.lo.disable_ipv6=0" >>/etc/sysctl.conf
+	@echo ipv6 is disabled
+	
 hostapd:
 	@echo "Installing hotspot"
 	rfkill unblock wlan
