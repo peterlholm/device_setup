@@ -38,7 +38,7 @@ ipv6_disable:
 	echo "net.ipv6.conf.default.disable_ipv6=0" >>/etc/sysctl.conf
 	echo "net.ipv6.conf.lo.disable_ipv6=0" >>/etc/sysctl.conf
 	@echo ipv6 is disabled
-	
+
 hostapd:
 	@echo "Installing hotspot"
 	rfkill unblock wlan
@@ -93,6 +93,7 @@ console:
 	@echo "enable console"
 	sed -i /etc/default/keyboard -e "s/^XKBLAYOUT.*/XKBLAYOUT=\"dk\"/"
 	sed -i /boot/config.txt -e "s/^#config_hdmi_boost.*/config_hdmi_boost=4/"
+	timedatectl set-timezone Europe/Copenhagen
 	@echo "You need to reboot before changes appear"
 
 debugtools:

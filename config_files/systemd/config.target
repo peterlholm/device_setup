@@ -7,7 +7,9 @@
 [Unit]
 Description=Danwand Config Mode
 Documentation=http://doc.danbots.com/mode/config.html
-Requires=basic.target hostapd.service dw_dhcpcd.service dnsmasq.service apache2.service sshd.service
+Requires=basic.target hostapd.service dw_dhcpcd.service dnsmasq.service apache2.service 
+Wants=dbus.service getty.target systemd-ask-password-wall.path systemd-logind.service systemd-user-sessions.service console-setup.service avahi-daemon.service dhcpcd.service dphys-swapfile.service networking.service raspberrypi-net-mods.service sshd.service triggerhappy.service
+# cron.service nfs-client.target remote-fs.target rpi-eeprom-update.service rsync-service sshswitch.service wpa_supplicant.service
 Conflicts=resque.service resque.target dhcpcd.service wpa_supplicant.service
 After=basic.target rescue.service rescue.target dhcpcd.service
 AllowIsolate=yes
