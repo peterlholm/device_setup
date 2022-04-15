@@ -99,6 +99,7 @@ console:
 debugtools:
 	@echo "Installing debug tools"
 	apt install aptitude
+	apt install avahi-utils
 
 raspbian-config:
 	timedatectl set-timezone Europe/Copenhagen
