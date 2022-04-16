@@ -1,0 +1,15 @@
+#!/bin/bash
+#       generate trace file in tmp
+#
+HOSTNAME=`hostname`
+FILENAME=/tmp/$HOSTNAME.pcap
+
+echo "trace on normal interface $FILENAME"
+
+rm -f $FILENAME
+touch $FILENAME
+#chown pi $FILENAME
+chmod 666 $FILENAME
+
+#tcpdump -s 0 -w $FILENAME # host not 62.116.221.100 port not 122
+tcpdump -s 0 -i any -w $FILENAME
