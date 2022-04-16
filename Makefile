@@ -22,6 +22,7 @@ help :
 	@echo "make raspbian-config\tdisable unused raspbian services"
 	@echo "make ipv6-disable\t,Disable ipv6"
 	@echo "make website\tinstall website"
+	@echo "make camera-util\tInstall camera dt-blop"
 	@echo "--"
 	@echo "make service\tinstall register service"
 	@echo "make python\tinstall Phython requirements"
@@ -38,6 +39,13 @@ ipv6_disable:
 	echo "net.ipv6.conf.default.disable_ipv6=0" >>/etc/sysctl.conf
 	echo "net.ipv6.conf.lo.disable_ipv6=0" >>/etc/sysctl.conf
 	@echo ipv6 is disabled
+
+camera-util:	/boot/dt-blob.bin
+	echo camera utils in place
+	
+/boot/dt-blob.bin:
+	sudo wget https://datasheets.raspberrypi.org/cmio/dt-blob-cam1.bin -O /boot/dt-blob.bin
+
 
 hostapd:
 	@echo "Installing hotspot"
@@ -100,6 +108,31 @@ debugtools:
 	@echo "Installing debug tools"
 	apt install aptitude
 	apt install avahi-utils
+	apt install tcpdump dnsutils
+
+users:	user-danwand user-peter
+
+user-danwand:
+	@echo generating danwand users
+	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
+	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
+	sudo usermod -a -G gpio,video danwand
+	sudo mkdir -p -m 700 /home/danwand/.ssh
+	sudo cp ./conf/authorized_keys /home/danwand/.ssh
+	sudo chown -R danwand:danwand /home/danwand/.ssh
+
+user-peter:
+	@echo generating peter 
+	id peter ||  useradd -m -u 600 -c "Peter Holm" -G sudo -s /bin/bash peter 
+	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
+	sudo usermod -a -G gpio,video peter
+	sudo mkdir -p -m 700 /home/peter/.ssh
+	sudo cp ./conf/authorized_keys /home/peter/.ssh
+	sudo chown -R peter:peter /home/peter/.ssh
+
+hostname:
+	@echo "Setting hostname to danwand"
+	hostnamectl set-hostname danwand
 
 raspbian-config:
 	timedatectl set-timezone Europe/Copenhagen
