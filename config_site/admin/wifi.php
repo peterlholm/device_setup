@@ -96,7 +96,12 @@
                 <button type="submit" class="btn btn-primary" name="submit" value="savessid">Submit</button>
               </div>
             </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary" name="submit" value="reboot">Reboot</button>
+              </div>
+
           </form>
+        </div>
         </div>
         <?php
         if (isset(($_REQUEST['submit']))) {
@@ -104,11 +109,19 @@
           if ($function == "savessid") {
             $ssid = $_REQUEST['ssid'];
             $passphrase = $_REQUEST['passphrase'];
+            if (strlen($ssid)==0 || strlen($passphrase)==0) {
+              echo ("empty fields");
+              return "error in config";
+            }
+            add_wpa_config($ssid, $passphrase);
             echo "<h4>Saving $ssid and $passphrase</h4><br>";
           }
-        }
+        elseif ($function == "reboot") system_reboot();
+        else print("unknown function");
+      }
+
         ?>
-      </div>
+   
     </div>
   </div>
   <script src="/js/bootstrap.min.js"></script>

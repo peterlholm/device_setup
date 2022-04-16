@@ -90,7 +90,6 @@ website:
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 	
-
 configmode:	hostapd dnsmasq
 	@echo "Installing Configmode files"
 	cp ./config_files/systemd/* /etc/systemd/system
@@ -123,7 +122,7 @@ user-danwand:
 
 user-peter:
 	@echo generating peter 
-	id peter ||  useradd -m -u 600 -c "Peter Holm" -G sudo -s /bin/bash peter 
+	id peter ||  useradd -m -c "Peter Holm" -G sudo -s /bin/bash peter 
 	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
 	sudo usermod -a -G gpio,video peter
 	sudo mkdir -p -m 700 /home/peter/.ssh

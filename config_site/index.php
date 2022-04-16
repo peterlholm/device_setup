@@ -51,7 +51,7 @@
           <label>WIFI SID</label>
         </div>
         <div class="col-4">
-          FutureBox
+          <?=get_current_ssid();?>
         </div>
       </div>
       <div class="row justify-content-center">

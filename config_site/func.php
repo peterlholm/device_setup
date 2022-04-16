@@ -37,6 +37,8 @@ function get_eth_mac()
 
 function get_wifi_mac()
 {
+    global $windows;
+    if ($windows) return "Unknown";
     $out =  exec('ifconfig wlan0 | grep ether | tr -s " " | cut -d " " -f 3');
     return($out);
 }
@@ -65,6 +67,9 @@ function internet_connection()
 }
 
 # get wifi information
+function get_current_ssid() {
+    return "Unknown";
+}
 
 function get_ap_list()
 {   
@@ -87,13 +92,15 @@ function get_wifi_list()
     return $out;
 }
 
-function create_wpa_config($path, $ssid, $passphrase)
+function add_wpa_config($ssid, $passphrase)
 {
+    global $windows;
+    if ($windows) {echo "saving on windows"; return("adding wpa config"); }
+    $path = "/etc/wpa_suplicant/wpa_suplicant.conf";
     $config_content = "network={\nssid=\"$ssid\"\npsk=\"$passphrase\"\nkey_mgmt=WPA-PSK\n}\n";
-    if (!file_put_contents($path, $config_content))
+    if (!file_put_contents($path, $config_content, FILE_APPEND))
         echo "wpa_file_put_content went wrong";
 }
-
 
 function get_wifi_status()
 {
@@ -105,37 +112,45 @@ function get_wifi_status()
     return "<pre>".implode("\n",$output)."</pre>"; 
 }
 
-
+function system_reboot() {
+    global $windows;
+    if ($windows) {
+        print("Rebooting");
+        return TRUE;
+    }
+    $cmd = "sudo systemctl reboot";
+    $r = exec($cmd, $output, $result);
+    echo "Result: $result r: $r\n";
+    print_r($output);
+}
 
 
 
 //print_r($_SERVER);
-$pl['HW Info'] = get_hw_info();
-$pl['Rasbian'] = exec('grep "VERSION=" /etc/os-release');
-$pl['HostName'] = gethostname();
-$pl["Server Software"] =  $_SERVER['SERVER_SOFTWARE'];
-$pl['Python 2'] = exec('python --version 2>&1');
-$pl['Python 3'] = exec('python3 --version 2>&1');
-$pl["ServerName"] =  $_SERVER['SERVER_NAME'];
-if (!$windows)
-    $pl["Server IP addr"] =  $_SERVER['SERVER_ADDR'];
-$pl["Ether MAC"] =  exec('ifconfig eth0 | grep ether | tr -s " " | cut -d " " -f 3');
-$pl["Wlan MAC"] =  exec('ifconfig wlan0 | grep ether | tr -s " " | cut -d " " -f 3');
+// $pl['HW Info'] = get_hw_info();
+// $pl['Rasbian'] = exec('grep "VERSION=" /etc/os-release');
+// $pl['HostName'] = gethostname();
+// $pl["Server Software"] =  $_SERVER['SERVER_SOFTWARE'];
+// $pl['Python 2'] = exec('python --version 2>&1');
+// $pl['Python 3'] = exec('python3 --version 2>&1');
+// $pl["ServerName"] =  $_SERVER['SERVER_NAME'];
+// if (!$windows)
+//     $pl["Server IP addr"] =  $_SERVER['SERVER_ADDR'];
+// $pl["Ether MAC"] =  exec('ifconfig eth0 | grep ether | tr -s " " | cut -d " " -f 3');
+// $pl["Wlan MAC"] =  exec('ifconfig wlan0 | grep ether | tr -s " " | cut -d " " -f 3');
 
-$totalmem = exec('grep MemTot /proc/meminfo| tr -s " " |cut -d " " -f 2');
-$freemem = exec('grep MemFree /proc/meminfo| tr -s " " |cut -d " " -f 2');
-unset($output);
-$mem = exec('head -5 /proc/meminfo', $output);
-$str = "";
-foreach ($output as $o) $str .= $o . "<br>";
-unset($output);
-$str2="";
-$mem = exec('df -h / /boot | tail -3',$output);
-foreach ($output as $o) $str2 .= $o . "<br>";
-$pl2["Memory"] = $str;
-$pl2["Total Disk"] = $str2;
-$pl2['Load'] = exec('cat /proc/loadavg');
-$pl2['Batteri Level'] = '<progress id="battery" value="90" max="100">90%</progress>';
-?>
-
-
+// $totalmem = exec('grep MemTot /proc/meminfo| tr -s " " |cut -d " " -f 2');
+// $freemem = exec('grep MemFree /proc/meminfo| tr -s " " |cut -d " " -f 2');
+// unset($output);
+// $mem = exec('head -5 /proc/meminfo', $output);
+// $str = "";
+// foreach ($output as $o) $str .= $o . "<br>";
+// unset($output);
+// $str2="";
+// $mem = exec('df -h / /boot | tail -3',$output);
+// foreach ($output as $o) $str2 .= $o . "<br>";
+// $pl2["Memory"] = $str;
+// $pl2["Total Disk"] = $str2;
+// $pl2['Load'] = exec('cat /proc/loadavg');
+// $pl2['Batteri Level'] = '<progress id="battery" value="90" max="100">90%</progress>';
+// 
