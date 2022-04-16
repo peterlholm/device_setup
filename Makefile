@@ -127,7 +127,7 @@ user-peter:
 	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
 	sudo usermod -a -G gpio,video peter
 	sudo mkdir -p -m 700 /home/peter/.ssh
-	sudo cp ./conf/authorized_keys /home/peter/.ssh
+	sudo cp ./config_files/user/authorized_keys /home/peter/.ssh
 	sudo chown -R peter:peter /home/peter/.ssh
 
 hostname:
