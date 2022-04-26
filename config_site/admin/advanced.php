@@ -32,7 +32,8 @@
         <div class="col-sm-2">
           <button type="submit" class="btn btn-primary" name="submit" value="setconfig">Set Configmode</button>
           <button type="submit" class="btn btn-primary" name="submit" value="resetconfig">Reset Configmode</button>
-          <button type="submit" class="btn btn-primary" name="submit" value="reboot">Reboot</button>
+          <button type="submit" class="btn btn-primary" name="submit" value="reboot">Reboot to normal</button>
+          <button type="submit" class="btn btn-primary" name="submit" value="config">Reboot to Config Mode</button>
         </div>
 
     </div>
@@ -47,6 +48,14 @@
       if ($function == "resetconfig") {
         unlink($configfile);
         echo "<h4>deleting config mode</h4><br>";
+      }
+      if ($function == "reboot") {
+        system_reboot();
+        echo "<h4>System rebooting</h4><br>";
+      }
+      if ($function == "config") {
+        config_reboot();
+        echo "<h4>System rebooting</h4><br>";
       }
     }
     ?>

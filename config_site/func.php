@@ -134,6 +134,16 @@ function system_reboot() {
     //print_r($output);
 }
 
+function config_reboot() {
+    global $windows;
+    if ($windows) {
+        print("Rebooting Config");
+        return TRUE;
+    }
+    $cmd = "sudo systemctl isolate config.target";
+    $r = exec($cmd, $output, $result);
+}
+
 
 
 //print_r($_SERVER);

@@ -116,7 +116,7 @@ debugtools:
 
 users:	user-danwand user-peter
 
-danwand-state:
+danwand-state:  user-danwand
 	mkdir -p /var/lib/danwand 
 	chown danwand:www-data /var/lib/danwand
 	chmod ug+rw /var/lib/danwand
