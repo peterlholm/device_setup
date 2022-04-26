@@ -63,6 +63,11 @@ dnsmasq:
 	systemctl unmask dnsmasq
 	systemctl disable dnsmasq
 	cp ./config_files/etc/dnsmasq.conf /etc/dnsmasq.d/danwand.conf
+	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
+
+avahi:
+	@echo "Installing avahi services"
+	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services/danwand.service
 
 apache:
 	@echo "Installing Apache Webserver"
@@ -78,7 +83,7 @@ apache:
 	a2dissite 000-default
 	systemctl restart apache2
 
-website:
+website:	danwand-state
 	@echo "Installing config site"
 	rm -fr /var/www/config
 	cp -r ./config_site /var/www/config
@@ -110,6 +115,11 @@ debugtools:
 	apt install tcpdump dnsutils
 
 users:	user-danwand user-peter
+
+danwand-state:
+	mkdir -p /var/lib/danwand 
+	chown danwand:www-data /var/lib/danwand
+	chmod ug+rw /var/lib/danwand
 
 user-danwand:
 	@echo generating danwand users
