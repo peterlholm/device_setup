@@ -27,6 +27,8 @@
         if (strlen($ssid) == 0 || strlen($passphrase) == 0) {
           $resulttext = '<div class="col-10 text-danger">SSID and passphrase must be filled</div>';
           //return "error in config";
+        } elseif (strlen($passphrase) < 8) {
+          $resulttext = '<div class="col-10 text-danger">Passphrase must be minimum 8 characteers</div>';
         } else {
           add_wpa_config($ssid, $passphrase);
           $resulttext = '<div class="col-10 text-success">SSID is saved</div>';
@@ -45,7 +47,7 @@
       <br>
       <h3 class='text-center'>Local WiFi Network</h3>
       <div class="row justify-content-center">
-        <div class="col col-4">
+        <div class="col col-5">
           <table class="table table-sm">
             <thead>
               <tr>

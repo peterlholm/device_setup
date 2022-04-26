@@ -96,10 +96,20 @@ function add_wpa_config($ssid, $passphrase)
 {
     global $windows;
     if ($windows) {return("adding wpa config"); }
-    $path = "/etc/wpa_suplicant/wpa_suplicant.conf";
+    $path = "/etc/wpa_supplicant/wpa_supplicant.conf";
     $config_content = "network={\nssid=\"$ssid\"\npsk=\"$passphrase\"\nkey_mgmt=WPA-PSK\n}\n";
-    if (!file_put_contents($path, $config_content, FILE_APPEND))
-        echo "wpa_file_put_content went wrong";
+    //echo $config_content;
+    if (!file_put_contents("/tmp/wpa_config", $config_content))
+         echo "file_put error";
+    $cmd = "sudo sh -c 'cat /tmp/wpa_config >>$path '";
+    //echo $cmd;
+    $r = exec($cmd, $output, $result);
+    //echo "Result: $result r: $r\n";
+    //print_r($output);
+ 
+    // if (!file_put_contents($path, $config_content, FILE_APPEND))
+    //     echo "wpa_file_put_content went wrong";
+    return ;
 }
 
 function get_wifi_status()
@@ -120,8 +130,8 @@ function system_reboot() {
     }
     $cmd = "sudo systemctl reboot";
     $r = exec($cmd, $output, $result);
-    echo "Result: $result r: $r\n";
-    print_r($output);
+    //echo "Result: $result r: $r\n";
+    //print_r($output);
 }
 
 
