@@ -4,6 +4,7 @@
 #
 #   220408  PLH First version
 #
+
 import os
 import sys
 import datetime
@@ -17,6 +18,7 @@ REBOOT_NOUSER_SECONDS = 60  # 5 min
 REBOOT_USER_SECONDS = 600   # 10 min
 USER_ACTIVE_FILE = Path('/tmp/user_active')
 DANWAND_SERVICE = Path('/usr/local/bin/danwand/danwand_service')
+KEEP_CONFIG_MODE_FILE = Path('/var/lib/danwand/configmode')
 REBOOT= True
 
 def get_active_wifi_stations():
@@ -30,7 +32,7 @@ def get_active_wifi_stations():
 if len(sys.argv)>1:
     if sys.argv[1] == "noreboot":
         REBOOT=False
-    
+
 print(datetime.datetime.now(), "danWand config starting")
 
 # if not DANWAND_SERVICE.exists():
@@ -45,8 +47,8 @@ print(datetime.datetime.now(), "danWand config starting")
 starttime = time.time()
 endtime = starttime + REBOOT_NOUSER_SECONDS
 
-while time.time() < endtime:
-    print("Checkking")
+while (time.time() < endtime) | KEEP_CONFIG_MODE_FILE.exists():
+    print("Checkking ", KEEP_CONFIG_MODE_FILE.exists())
     if USER_ACTIVE_FILE.exists():
         print('User found')
         endtime = starttime + REBOOT_USER_SECONDS
