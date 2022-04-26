@@ -95,7 +95,7 @@ function get_wifi_list()
 function add_wpa_config($ssid, $passphrase)
 {
     global $windows;
-    if ($windows) {echo "saving on windows"; return("adding wpa config"); }
+    if ($windows) {return("adding wpa config"); }
     $path = "/etc/wpa_suplicant/wpa_suplicant.conf";
     $config_content = "network={\nssid=\"$ssid\"\npsk=\"$passphrase\"\nkey_mgmt=WPA-PSK\n}\n";
     if (!file_put_contents($path, $config_content, FILE_APPEND))

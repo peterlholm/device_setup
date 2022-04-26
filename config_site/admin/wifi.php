@@ -12,43 +12,38 @@
 </head>
 
 <body>
-  <?php
-  require('../func.php');
-  $aplist = get_ap_list();
-
-
-  ?>
-
   <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark xbg-light">
-      <a class="navbar-brand" href="/#">
-        <img src="/pic/db_logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
-        danWand
-      </a>&nbsp;
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <?php
+    require('../func.php');
+    $aplist = get_ap_list();
+    require('../menu.php');
+    $resulttext = "";
+    $disabled = "disabled";
+    if (isset(($_REQUEST['submit']))) {
+      $function = $_REQUEST['submit'];
+      if ($function == "savessid") {
+        $ssid = $_REQUEST['ssid'];
+        $passphrase = $_REQUEST['passphrase'];
+        if (strlen($ssid) == 0 || strlen($passphrase) == 0) {
+          $resulttext = '<div class="col-10 text-danger">SSID and passphrase must be filled</div>';
+          //return "error in config";
+        } else {
+          add_wpa_config($ssid, $passphrase);
+          $resulttext = '<div class="col-10 text-success">SSID is saved</div>';
+          $disabled = "";
+        }
+      } elseif ($function == "reboot") system_reboot();
+      else print("unknown function");
+    }
+    ?>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/admin/wifi.php">WiFi Configuration</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/advanced.php">Advanced</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Change password</a>
-          </li>
-
-        </ul>
-      </div>
-    </nav>
+    <script>
+      var element = document.getElementById("wifi");
+      element.classList.add("active");
+    </script>
     <div class="">
-      <h3 class='text-center'>WiFi in reach</h3>
+      <br>
+      <h3 class='text-center'>Local WiFi Network</h3>
       <div class="row justify-content-center">
         <div class="col col-4">
           <table class="table table-sm">
@@ -69,12 +64,13 @@
         </div>
       </div>
       <hr>
-      <h3 class='text-center'>Add WiFi configuration</h3>
+      <h3 class='text-center'>Add WiFi network</h3>
+      <br>
       <div class="row justify-content-center">
         <div class="col col-10">
-          <form  method="post">
+          <form method="post">
             <div class="form-group row">
-              <label for="network_ssid1" class="col-sm-3 col-form-label">Network SSID</label>
+              <label for="network_ssid1" class="col-sm-4 col-form-label">Network SSID</label>
               <div class="col-sm-7">
                 <datalist id="aplist">
                   <?php
@@ -84,46 +80,37 @@
                   ?>
                 </datalist>
                 <input type="text" class="form-control" name="ssid" list="aplist">
-                <!-- <input type="network_ssid" class="form-control" id="network_ssid1" aria-describedby="emailHelp" placeholder="Enter SSID"> -->
               </div>
             </div>
             <div class="form-group row">
-              <label for="exampleInputPassword1" class="col-sm-3 col-form-label">Passphrase</label>
+              <label for="exampleInputPassword1" class="col-sm-4 col-form-label">Passphrase</label>
               <div class="col-sm-7">
                 <input type="text" class="form-control" id="exampleInputPassword1" name="passphrase">
               </div>
-              <div class="col-sm-2">
-                <button type="submit" class="btn btn-primary" name="submit" value="savessid">Submit</button>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-3 xoffset-4">
+                <button type="submit" class="btn btn-primary fix-button" name="submit" value="savessid">Save</button>
+              </div>
+              <div class="col-3">
+                <button type="submit" class="btn btn-danger fix-button <?=$disabled?>" <?=$disabled?> name="submit" value="reboot">Reboot</button>
               </div>
             </div>
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-primary" name="submit" value="reboot">Reboot</button>
-              </div>
 
           </form>
+          <br>
+          <div class="row justify-content-center">
+            <?php
+            echo $resulttext;
+            ?>
+          </div>
         </div>
-        </div>
-        <?php
-        if (isset(($_REQUEST['submit']))) {
-          $function = $_REQUEST['submit'];
-          if ($function == "savessid") {
-            $ssid = $_REQUEST['ssid'];
-            $passphrase = $_REQUEST['passphrase'];
-            if (strlen($ssid)==0 || strlen($passphrase)==0) {
-              echo ("empty fields");
-              return "error in config";
-            }
-            add_wpa_config($ssid, $passphrase);
-            echo "<h4>Saving $ssid and $passphrase</h4><br>";
-          }
-        elseif ($function == "reboot") system_reboot();
-        else print("unknown function");
-      }
+      </div>
 
-        ?>
-   
     </div>
   </div>
+  <script src="/js/jquery-3.2.1.slim.min.js"></script>
+  <script src="/js/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
 </body>
 

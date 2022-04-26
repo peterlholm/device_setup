@@ -12,40 +12,19 @@
 </head>
 
 <body>
+  <div class="container">
   <?php
   require('../func.php');
   //$aplist = get_ap_list();
+  require('../menu.php');
   ?>
-
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark xbg-light">
-      <a class="navbar-brand" href="/#">
-        <img src="/pic/db_logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
-        danWand
-      </a>&nbsp;
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/wifi.php">WiFi Configuration</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/admin/advanced.php#">Advanced</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Change password</a>
-          </li>
-
-        </ul>
-      </div>
-    </nav>
+    <script>
+    var element = document.getElementById("advanced");
+    element.classList.add("active");
+  </script>
+  <br>
     <div class="">
+
       <form>
       <h3 class='text-center'>Advanced 1</h3>
       <hr>

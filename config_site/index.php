@@ -13,39 +13,20 @@
 </head>
 
 <body>
-  <?php
-  require('func.php');
-  ?>
   <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark xbg-primary">
-      <a class="navbar-brand" href="/#">
-        <img src="/pic/db_logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
-        danWand
-      </a>&nbsp;
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/wifi.php">WiFi Configuration</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/advanced.php">Advanced</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Change password</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <?php
+    require('func.php');
+    require('menu.php');
+    ?>
+    <script>
+    var element = document.getElementById("home");
+    element.classList.add("active");
+  </script>
+ 
     <div class="background-wand">
-      <h1 class="text-center">danWand configuration</h1>
       <br>
+      <h1 class="text-center">danWand configuration</h1>
+      <br><br>
       <div class="row justify-content-center">
         <div class="col-4">
           <label>WIFI SID</label>
@@ -91,6 +72,8 @@
       </div>
     </div>
   </div>
+  <script src="/js/jquery-3.2.1.slim.min.js"></script>
+  <script src="/js/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
 
 </body>
