@@ -144,6 +144,15 @@ function config_reboot() {
     $r = exec($cmd, $output, $result);
 }
 
+function halt_reboot() {
+    global $windows;
+    if ($windows) {
+        print("Halt");
+        return TRUE;
+    }
+    $cmd = "sudo systemctl halt";
+    $r = exec($cmd, $output, $result);
+}
 
 
 //print_r($_SERVER);

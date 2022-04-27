@@ -1,0 +1,21 @@
+#
+# danvwand init service
+#
+
+[Unit]
+Description=DanWand Init service
+After=network.target
+StartLimitIntervalSec=10
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+User=danwand
+Environment=PYTHONUNBUFFERED=1
+#StandardOutput=append:/var/log/danwand.log
+ExecStart=/usr/local/bin/danwand/danwand_init.py 
+#WorkingDirectory=/home/danwand/init
+
+[Install]
+WantedBy=multi-user.target

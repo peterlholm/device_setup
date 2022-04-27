@@ -94,12 +94,34 @@ website:	danwand-state
 	systemctl reload apache2
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
-	
+
+config-file:
+	@echo "create configuration files"
+	test -f /etc/danwand.conf || cp ./conf/danwand.conf /etc/danwand.conf
+	chown danwand /etc/danwand.conf
+
+
 configmode:	hostapd dnsmasq
 	@echo "Installing Configmode files"
+	apt install avahi-utils
 	cp ./config_files/systemd/* /etc/systemd/system
 	cp -r ./bin/local/* /usr/local/bin/
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
+	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services
+	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
+	systemctl enable --now avahi-alias@wand.local.service
+
+# /home/pi/.ssh/id_rsa
+init-service: user-danwand config-file 
+	@echo "creating danwand service"
+	#test -d /home/danwand/init ||mkdir /home/danwand/init
+	@echo "install pip3"
+	apt-get install python3-pip
+	pip3 install -r requirements.txt
+	#cp ./bin/danwand_init.py /home/danwand/init/
+	cp ./conf/danwand.service /etc/systemd/system/
+	systemctl enable danwand.service
+	systemctl restart danwand.service
 
 console:
 	@echo "enable console"

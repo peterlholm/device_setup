@@ -8,10 +8,10 @@
   <name replace-wildcards="yes">danWand on %h</name>
 
   <service>
-    <type>_danwand._tcp</type>
-    <port>8080</port>
-    <host-name>danwand.local</host-name>
-    
+    <type>_http._tcp</type>
+    <port>80</port>
+    <host-name>wand.local</host-name>
+    <txt-record>Test</txt-record>
   </service>
 
 </service-group>

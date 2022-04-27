@@ -29,13 +29,27 @@
         <h3 class='text-center'>Advanced 1</h3>
         <hr>
         <h3 class='text-center'>Special Functions</h3>
-        <div class="col-sm-2">
-          <button type="submit" class="btn btn-primary" name="submit" value="setconfig">Set Configmode</button>
-          <button type="submit" class="btn btn-primary" name="submit" value="resetconfig">Reset Configmode</button>
-          <button type="submit" class="btn btn-primary" name="submit" value="reboot">Reboot to normal</button>
-          <button type="submit" class="btn btn-primary" name="submit" value="config">Reboot to Config Mode</button>
+        <div class="row">
+          <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary" name="submit" value="setconfig">Set Configmode</button>
+          </div>
+          <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary" name="submit" value="resetconfig">Reset Configmode</button>
+          </div>
+          </div>
+          <br>
+          <div class="row">
+          <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary" name="submit" value="reboot">Reboot to normal</button>
+          </div>
+          <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary" name="submit" value="config">Reboot to Config Mode</button>
+          </div>
+          <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary" name="submit" value="halt">Halt</button>
+          </div>
         </div>
-
+      </form>
     </div>
     <?php
     $configfile = "/var/lib/danwand/configmode";
@@ -56,6 +70,10 @@
       if ($function == "config") {
         config_reboot();
         echo "<h4>System rebooting</h4><br>";
+      }
+      if ($function == "halt") {
+        halt_reboot();
+        echo "<h4>System Shutdown</h4><br>";
       }
     }
     ?>
