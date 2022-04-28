@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, xheight=device-height, initial-scale=1.0">
   <title>Danwand Configuration</title>
   <!-- <link rel="manifest" href="/manifest.json" crossorigin="use-credentials"> -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="db_logo_icon.png" type="image/png">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/css/site.css" />
 </head>
@@ -16,7 +16,13 @@
   <div class="container">
     <?php
     require('func.php');
+    require('dw_func.php');
     require('menu.php');
+    $ip = get_ip_address();
+    $power = battery_power_level();
+    $signal = wifi_signal_level();
+    $internet = internet_connection()?"OK":"Error";
+    $cloud_service = internet_connection(2)?"OK":"Error";
     ?>
     <script>
     var element = document.getElementById("home");
@@ -29,7 +35,7 @@
       <br><br>
       <div class="row justify-content-center">
         <div class="col-4">
-          <label>WIFI SID</label>
+          <label>WIFI SSID</label>
         </div>
         <div class="col-4">
           <?=get_current_ssid();?>
@@ -53,21 +59,47 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-4">
+          <label>WiFi Level</label>
+        </div>
+        <div class="col-4">
+        <meter value="<?=$signal?>" min="0" max="100" low="25" high="80" optimum="85" title="<?=$signal?>%"><?=$signal?></meter> 
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-4">
           <label>IP Address</label>
         </div>
         <div class="col-4">
-          <?php echo get_ip_address() ?>
+          <?=$ip?>
         </div>
       </div>
 
       <div class="row justify-content-center">
         <div class="col-4">
-          <label>Internet</label>
+          <label>Internet access</label>
         </div>
         <div class="col-4">
-          <?= internet_connection() ?>
+          <?=$internet?>
         </div>
       </div>
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <label>danBots Cloud Service</label>
+        </div>
+        <div class="col-4">
+          <?= $cloud_service?>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <label>Power Level</label>
+        </div>
+        <div class="col-4">
+        <meter value="<?=$power?>" min="0" max="100" low="25" high="80" optimum="85" title="Charge <?=$power?>%"><?=$power?>%</meter> 
+ 
+        </div>
+      </div>
+
       <div class="row justify-content-center">
       </div>
     </div>

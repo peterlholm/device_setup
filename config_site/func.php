@@ -1,21 +1,11 @@
 <?php
 
+//  220428  PLH First version
+
 $windows = 0;
 if (PHP_OS == 'WINNT') {
     $windows = 1;
     $config_dir = "config";
-}
-
-# get OS information
-
-function get_hw_info()
-{
-    global $windows;
-    if ($windows) return "na";
-    $cmd = "cat /proc/device-tree/model";
-    unset($output);
-    $r = exec($cmd, $output, $result);
-    return $output[0];
 }
 
 # get networks information
@@ -23,14 +13,15 @@ function get_hw_info()
 function get_ip_address()
 {
     global $windows;
-    if ($windows) return("Unknown");
-    return($_SERVER['SERVER_ADDR']);
+    if ($windows) return ("1.2.3.4");
+    return "4.3.2.1";
+    return ($_SERVER['SERVER_ADDR']);
 }
 
 function get_eth_mac()
-{   
+{
     global $windows;
-    if ($windows) return("Unknown");
+    if ($windows) return ("11:22:33:44:55");
     $out = exec('ifconfig eth0 | grep ether | tr -s " " | cut -d " " -f 3');
     return $out;
 }
@@ -38,41 +29,27 @@ function get_eth_mac()
 function get_wifi_mac()
 {
     global $windows;
-    if ($windows) return "Unknown";
+    if ($windows) return "11:22:33:44:55";
     $out =  exec('ifconfig wlan0 | grep ether | tr -s " " | cut -d " " -f 3');
-    return($out);
+    if ($out =="")
+        $out =  exec('ifconfig wlp3s0 | grep ether | tr -s " " | cut -d " " -f 3');
+    return ($out);
 }
 
-function read_config_file($file, &$ssid, &$passphrase)
-{
-    $content = parse_ini_file($file);
-    $ssid = $content['ssid'];
-    $passphrase = $content['passphrase'];
-    return;
-}
-
-# internet
-function internet_connection()
-{
-    global $windows;
-    if ($windows) 
-        $out = exec('ping -w 500 -n 1 8.8.8.8', $output, $res);
-    else
-        $out = exec('ping -w 1 -c 1 8.8.8.8', $output, $res);
-    #print ("res ".$res);
-    #print $out;
-    if ($res) return "Not OK";
-    return "OK";
-    return $out;
-}
-
+#
 # get wifi information
-function get_current_ssid() {
+function get_current_ssid()
+{
     return "Unknown";
 }
 
+function wifi_signal_level()
+{
+    return 80;
+}
+
 function get_ap_list()
-{   
+{
     unset($output);
     // $cmd = 'wpa_cli scan_result | cut -f5';
     // $cmd = '/sbin/wpa_cli scan_result  ';
@@ -84,10 +61,14 @@ function get_ap_list()
     return array_unique($output);
 }
 
-function get_wifi_list() 
+function get_wifi_list()
 {
     $cmd = 'sudo iwlist wlan0 scan | egrep "Cell|ESSID|Signal|Rates"';
-    $res = exec ($cmd, $output, $result);
+    $res = exec($cmd, $output, $result);
+    if ($res=="") {
+        $cmd = 'sudo iwlist wlp3s0 scan | egrep "Cell|ESSID|Signal|Rates"';
+        $res = exec($cmd, $output, $result);
+    }
     $out = implode("<br>\n", $output);
     return $out;
 }
@@ -95,21 +76,23 @@ function get_wifi_list()
 function add_wpa_config($ssid, $passphrase)
 {
     global $windows;
-    if ($windows) {return("adding wpa config"); }
+    if ($windows) {
+        return ("adding wpa config");
+    }
     $path = "/etc/wpa_supplicant/wpa_supplicant.conf";
     $config_content = "network={\nssid=\"$ssid\"\npsk=\"$passphrase\"\nkey_mgmt=WPA-PSK\n}\n";
     //echo $config_content;
     if (!file_put_contents("/tmp/wpa_config", $config_content))
-         echo "file_put error";
+        echo "file_put error";
     $cmd = "sudo sh -c 'cat /tmp/wpa_config >>$path '";
     //echo $cmd;
     $r = exec($cmd, $output, $result);
     //echo "Result: $result r: $r\n";
     //print_r($output);
- 
+
     // if (!file_put_contents($path, $config_content, FILE_APPEND))
     //     echo "wpa_file_put_content went wrong";
-    return ;
+    return;
 }
 
 function get_wifi_status()
@@ -119,40 +102,9 @@ function get_wifi_status()
     $r =    exec($cmd, $output, $result);
     //echo "Result: $result r: $r\n";
     //print_r($output);
-    return "<pre>".implode("\n",$output)."</pre>"; 
+    return "<pre>" . implode("\n", $output) . "</pre>";
 }
 
-function system_reboot() {
-    global $windows;
-    if ($windows) {
-        print("Rebooting");
-        return TRUE;
-    }
-    $cmd = "sudo systemctl reboot";
-    $r = exec($cmd, $output, $result);
-    //echo "Result: $result r: $r\n";
-    //print_r($output);
-}
-
-function config_reboot() {
-    global $windows;
-    if ($windows) {
-        print("Rebooting Config");
-        return TRUE;
-    }
-    $cmd = "sudo systemctl isolate config.target";
-    $r = exec($cmd, $output, $result);
-}
-
-function halt_reboot() {
-    global $windows;
-    if ($windows) {
-        print("Halt");
-        return TRUE;
-    }
-    $cmd = "sudo systemctl halt";
-    $r = exec($cmd, $output, $result);
-}
 
 
 //print_r($_SERVER);

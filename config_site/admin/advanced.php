@@ -15,6 +15,7 @@
   <div class="container">
     <?php
     require('../func.php');
+    require('../dw_func.php');
     //$aplist = get_ap_list();
     require('../menu.php');
     ?>
@@ -64,15 +65,15 @@
         echo "<h4>deleting config mode</h4><br>";
       }
       if ($function == "reboot") {
-        system_reboot();
+        system_set_mode("reboot");
         echo "<h4>System rebooting</h4><br>";
       }
       if ($function == "config") {
-        config_reboot();
+        system_set_mode("config");
         echo "<h4>System rebooting</h4><br>";
       }
       if ($function == "halt") {
-        halt_reboot();
+        system_set_mode("halt");
         echo "<h4>System Shutdown</h4><br>";
       }
     }

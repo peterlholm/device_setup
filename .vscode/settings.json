@@ -3,5 +3,6 @@
 "liveServer.settings.root": "./config_site",
 "phpserver.relativePath": "./config_site/",
 "python.linting.pylintEnabled": true,
-"python.linting.enabled": true
+"python.linting.enabled": true,
+"phpserver.browser": "firefox"
 }

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Danwand Configuration</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/db_logo_icon.png" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/css/site.css" />
 </head>
@@ -34,7 +34,7 @@
           $resulttext = '<div class="col-10 text-success">SSID is saved</div>';
           $disabled = "";
         }
-      } elseif ($function == "reboot") system_reboot();
+      } elseif ($function == "reboot") system_set_mode("reboot");
       else print("unknown function");
     }
     ?>
