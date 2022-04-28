@@ -14,7 +14,6 @@ function get_ip_address()
 {
     global $windows;
     if ($windows) return ("1.2.3.4");
-    return "4.3.2.1";
     return ($_SERVER['SERVER_ADDR']);
 }
 
@@ -45,19 +44,30 @@ function get_current_ssid()
 
 function wifi_signal_level()
 {
-    return 80;
+    $cmd = "iwconfig wlan0 | sed -n -e '/Signal/s/^.*level=\(.*\) dBm.*/\1/p'";
+    $r =  exec($cmd, $output, $result);
+    #echo "Result: $result r: x$r\n";
+    return $r;
+}
+
+function get_ap_device() {
+    $cmd = "iw dev | sed -n -e '/Interface/s/^.*Interface //p'";
+    $r =  exec($cmd, $output, $result);
+    #echo "Result: $result r: x$r\n";
+    return $r;
 }
 
 function get_ap_list()
 {
+    $if = get_ap_device();
     unset($output);
     // $cmd = 'wpa_cli scan_result | cut -f5';
     // $cmd = '/sbin/wpa_cli scan_result  ';
-    $cmd = "sudo iwlist wlan0 scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p' . "'";
-    //echo $cmd;
-    $r =    exec($cmd, $output, $result);
-    // echo "Result: $result r: $r\n";
-    // print_r($output);
+    $cmd = "sudo iwlist $if scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p;/Qual/p' . "'";
+    echo "$cmd <br>";
+    $r =  exec($cmd, $output, $result);
+    echo "Result: $result r: $r\n";
+    print_r($output);
     return array_unique($output);
 }
 
@@ -68,6 +78,8 @@ function get_wifi_list()
     if ($res=="") {
         $cmd = 'sudo iwlist wlp3s0 scan | egrep "Cell|ESSID|Signal|Rates"';
         $res = exec($cmd, $output, $result);
+        echo "RES $result";
+        print_r($output);
     }
     $out = implode("<br>\n", $output);
     return $out;
@@ -107,31 +119,4 @@ function get_wifi_status()
 
 
 
-//print_r($_SERVER);
-// $pl['HW Info'] = get_hw_info();
-// $pl['Rasbian'] = exec('grep "VERSION=" /etc/os-release');
-// $pl['HostName'] = gethostname();
-// $pl["Server Software"] =  $_SERVER['SERVER_SOFTWARE'];
-// $pl['Python 2'] = exec('python --version 2>&1');
-// $pl['Python 3'] = exec('python3 --version 2>&1');
-// $pl["ServerName"] =  $_SERVER['SERVER_NAME'];
-// if (!$windows)
-//     $pl["Server IP addr"] =  $_SERVER['SERVER_ADDR'];
-// $pl["Ether MAC"] =  exec('ifconfig eth0 | grep ether | tr -s " " | cut -d " " -f 3');
-// $pl["Wlan MAC"] =  exec('ifconfig wlan0 | grep ether | tr -s " " | cut -d " " -f 3');
-
-// $totalmem = exec('grep MemTot /proc/meminfo| tr -s " " |cut -d " " -f 2');
-// $freemem = exec('grep MemFree /proc/meminfo| tr -s " " |cut -d " " -f 2');
-// unset($output);
-// $mem = exec('head -5 /proc/meminfo', $output);
-// $str = "";
-// foreach ($output as $o) $str .= $o . "<br>";
-// unset($output);
-// $str2="";
-// $mem = exec('df -h / /boot | tail -3',$output);
-// foreach ($output as $o) $str2 .= $o . "<br>";
-// $pl2["Memory"] = $str;
-// $pl2["Total Disk"] = $str2;
-// $pl2['Load'] = exec('cat /proc/loadavg');
-// $pl2['Batteri Level'] = '<progress id="battery" value="90" max="100">90%</progress>';
-// 
+get_ap_list();
