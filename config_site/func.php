@@ -42,11 +42,17 @@ function get_current_ssid()
     return "Unknown";
 }
 
+function wifi_ssid()
+{
+    $cmd = "iwconfig wlan0 | sed -n -e '/ESSID/s/^.*ESSID:\"\(.*\)\".*/\\1/p'";
+    $r =  exec($cmd, $output, $result);
+    return $r;
+}
+
 function wifi_signal_level()
 {
-    $cmd = "iwconfig wlan0 | sed -n -e '/Signal/s/^.*level=\(.*\) dBm.*/\1/p'";
+    $cmd = "iwconfig wlan0 | sed -n -e '/Signal/s/^.*level=\(.*\) dBm.*/\\1/p'";
     $r =  exec($cmd, $output, $result);
-    #echo "Result: $result r: x$r\n";
     return $r;
 }
 
@@ -63,11 +69,12 @@ function get_ap_list()
     unset($output);
     // $cmd = 'wpa_cli scan_result | cut -f5';
     // $cmd = '/sbin/wpa_cli scan_result  ';
-    $cmd = "sudo iwlist $if scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p;/Qual/p' . "'";
-    echo "$cmd <br>";
+    //$cmd = "sudo iwlist $if scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p;/Qual/p' . "'";
+    $cmd = "sudo iwlist $if scan | sed -n -e '/ESSID/s/" . '.*ESSID:"\(.*\)".*/\1/p' . "'";
+    //echo "$cmd <br>";
     $r =  exec($cmd, $output, $result);
-    echo "Result: $result r: $r\n";
-    print_r($output);
+    //echo "Result: $result r: $r\n";
+    //print_r($output);
     return array_unique($output);
 }
 
@@ -116,7 +123,3 @@ function get_wifi_status()
     //print_r($output);
     return "<pre>" . implode("\n", $output) . "</pre>";
 }
-
-
-
-get_ap_list();

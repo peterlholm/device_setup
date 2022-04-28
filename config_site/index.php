@@ -19,10 +19,12 @@
     require('dw_func.php');
     require('menu.php');
     $ip = get_ip_address();
+    $ssid = wifi_ssid();
     $power = battery_power_level();
     $signal = wifi_signal_level();
     $internet = internet_connection()?"OK":"Error";
     $cloud_service = internet_connection(2)?"OK":"Error";
+    $charging = "Charging";
     ?>
     <script>
     var element = document.getElementById("home");
@@ -38,7 +40,7 @@
           <label>WIFI SSID</label>
         </div>
         <div class="col-4">
-          <?=get_current_ssid();?>
+          <?=$ssid?>
         </div>
       </div>
       <div class="row justify-content-center">
@@ -62,7 +64,7 @@
           <label>WiFi Level</label>
         </div>
         <div class="col-4">
-        <meter value="<?=$signal?>" min="0" max="100" low="25" high="80" optimum="85" title="<?=$signal?>%"><?=$signal?></meter> 
+        <meter value="<?=$signal?>" min="-90" max="-40" low="-70" high="-50" optimum="-60" title="<?=$signal?> dBm"><?=$signal?> dBm</meter> <?=$signal?> dBm
         </div>
       </div>
       <div class="row justify-content-center">
@@ -95,8 +97,7 @@
           <label>Power Level</label>
         </div>
         <div class="col-4">
-        <meter value="<?=$power?>" min="0" max="100" low="25" high="80" optimum="85" title="Charge <?=$power?>%"><?=$power?>%</meter> 
- 
+        <meter value="<?=$power?>" min="0" max="100" low="25" high="80" optimum="85" title="Charge <?=$power?>%"><?=$power?>%</meter> <?=$charging?>
         </div>
       </div>
 
