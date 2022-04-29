@@ -121,7 +121,7 @@ apache:
 
 # config site
 
-website:	danwand-state
+website:	danwand-lib
 	@echo "Installing config site"
 	rm -fr /var/www/config
 	cp -r ./config_site /var/www/config
@@ -133,13 +133,7 @@ website:	danwand-state
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 
-config-file:
-	@echo "create configuration files"
-	test -f /etc/danwand.conf || cp ./conf/danwand.conf /etc/danwand.conf
-	chown danwand /etc/danwand.conf
-
-
-configmode:	hostapd dnsmasq
+configmode:	hostapd dnsmasq apache website
 	@echo "Installing Configmode files"
 	apt install avahi-utils
 	cp ./config_files/systemd/* /etc/systemd/system
@@ -148,6 +142,31 @@ configmode:	hostapd dnsmasq
 	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services
 	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
 	systemctl enable --now avahi-alias@wand.local.service
+
+danwand-lib:  user-danwand
+	mkdir -p /var/lib/danwand 
+	chown danwand:www-data /var/lib/danwand
+	chmod ug+rw /var/lib/danwand
+
+user-danwand:
+	@echo generating danwand user
+	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
+	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
+	sudo usermod -a -G gpio,video danwand
+	sudo mkdir -p -m 700 /home/danwand/.ssh
+	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
+	sudo chown -R danwand:danwand /home/danwand/.ssh
+
+hostname:
+	@echo "Setting hostname to danwand"
+	hostnamectl set-hostname danwand
+
+
+
+config-file:
+	@echo "create configuration files"
+	test -f /etc/danwand.conf || cp ./conf/danwand.conf /etc/danwand.conf
+	chown danwand /etc/danwand.conf
 
 camera-util:	/boot/dt-blob.bin
 	echo camera utils in place
@@ -172,23 +191,6 @@ init-service: user-danwand config-file
 
 users:	user-danwand 
 
-danwand-lib:  user-danwand
-	mkdir -p /var/lib/danwand 
-	chown danwand:www-data /var/lib/danwand
-	chmod ug+rw /var/lib/danwand
-
-user-danwand:
-	@echo generating danwand users
-	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
-	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
-	sudo usermod -a -G gpio,video danwand
-	sudo mkdir -p -m 700 /home/danwand/.ssh
-	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
-	sudo chown -R danwand:danwand /home/danwand/.ssh
-
-hostname:
-	@echo "Setting hostname to danwand"
-	hostnamectl set-hostname danwand
 
 
 

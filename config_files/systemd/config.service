@@ -25,7 +25,7 @@ StartLimitIntervalSec=30
 Type=simple
 Restart=on-failure
 RestartSec=10
-User=pi
+User=root
 Environment=PYTHONUNBUFFERED=1
 #StandardOutput=append:/var/log/config_service.log
 StandardOutput=journal
