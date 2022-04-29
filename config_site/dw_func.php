@@ -47,23 +47,24 @@ function internet_connection($server = 1)
 
 # mode shift
 
-function system_set_mode($val = "reboot")
+function system_set_mode($val = "")
 {
     switch ($val) {
         case "reboot":
             $cmd = "sudo systemctl reboot";
             break;
         case "config":
-            $cmd = "sudo systemctl isolate config.target";
+            $cmd = "sudo systemctl --no-block isolate config.target";
             break;
         case "halt":
             $cmd = "sudo systemctl halt";
             break;
         default:
-            $cmd = "sudo systemctl isolate multi-user.target";
+            echo "set_system_default";
+            $cmd = "ls";
             break;
     }
-    $cmd = "sudo systemctl reboot";
+
     $r = exec($cmd, $output, $result);
     return;
 }

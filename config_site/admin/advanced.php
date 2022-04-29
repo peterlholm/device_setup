@@ -25,7 +25,8 @@
     </script>
     <br>
     <div class="">
-
+      Model: <?=get_hw_info()?>
+      <br>
       <form>
         <h3 class='text-center'>Advanced 1</h3>
         <hr>
@@ -70,7 +71,7 @@
       }
       if ($function == "config") {
         system_set_mode("config");
-        echo "<h4>System rebooting</h4><br>";
+        echo "<h4>System rebooting to config mode</h4><br>";
       }
       if ($function == "halt") {
         system_set_mode("halt");
