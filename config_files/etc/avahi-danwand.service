@@ -10,7 +10,12 @@
   <service>
     <type>_http._tcp</type>
     <port>80</port>
-    <host-name>wand.local</host-name>
+    <txt-record>Test</txt-record>
+  </service>
+
+<service>
+    <type>_http._tcp</type>
+    <port>8080</port>
     <txt-record>Test</txt-record>
   </service>
 
