@@ -33,6 +33,22 @@ help :
 	@echo "make debugtools\tinstall debug sw"
 	@echo "make hotspot\tcreate hostapd hotspot"
 
+# adjust raspian service
+
+raspbian-config:
+	timedatectl set-timezone Europe/Copenhagen
+	@echo "disable bluetooth"
+	systemctl disable hciuart.service
+	systemctl stop hciuart.service
+	@#systemctl disable bluealsa.service
+	systemctl disable bluetooth.service
+	systemctl stop bluetooth.service
+	systemctl disable apt-daily.timer
+	systemctl disable apt-daily-upgrade.timer
+	@#systemctl disable cups.service
+	@#systemctl disable cups-browsed.service
+	@# dtoverlay=pi3-disable-bt
+
 # debugging
 
 ipv6_disable:
@@ -174,20 +190,6 @@ hostname:
 	@echo "Setting hostname to danwand"
 	hostnamectl set-hostname danwand
 
-# adjust raspian service
-
-raspbian-config:
-	timedatectl set-timezone Europe/Copenhagen
-	@echo "disable bluetooth"
-	systemctl disable hciuart.service
-	systemctl stop hciuart.service
-	@#systemctl disable bluealsa.service
-	systemctl disable bluetooth.service
-	systemctl stop bluetooth.service
-
-	@#systemctl disable cups.service
-	@#systemctl disable cups-browsed.service
-	@# dtoverlay=pi3-disable-bt
 
 
 install: raspbian-config apache website console  configmode
