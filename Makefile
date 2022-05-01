@@ -88,9 +88,9 @@ hostapd:
 	rfkill unblock wlan
 	apt install hostapd
 	systemctl stop hostapd
-	systemctl disable hostapd
 	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
 	systemctl unmask hostapd
+	systemctl disable hostapd
 
 dnsmasq:
 	@echo "Installing dnsmasq"
