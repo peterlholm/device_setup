@@ -66,9 +66,9 @@ console:
 
 debugtools:
 	@echo "Installing debug tools"
-	apt install aptitude
-	apt install avahi-utils
-	apt install tcpdump dnsutils
+	apt install -y aptitude
+	apt install -y avahi-utils
+	apt install -y tcpdump dnsutils
 
 user-peter:
 	@echo generating peter 
@@ -94,7 +94,7 @@ hostapd:
 
 dnsmasq:
 	@echo "Installing dnsmasq"
-	apt install dnsmasq
+	apt -y install dnsmasq
 	systemctl stop dnsmasq
 	systemctl unmask dnsmasq
 	systemctl disable dnsmasq
@@ -107,7 +107,7 @@ avahi:
 
 apache:
 	@echo "Installing Apache Webserver"
-	apt install apache2 php libapache2-mod-php
+	apt -y install apache2 php libapache2-mod-php
 	# allow apache to use camera and exec sudo
 	usermod -aG video www-data
 	usermod -aG sudo www-data

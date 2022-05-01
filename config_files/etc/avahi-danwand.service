@@ -10,13 +10,13 @@
   <service>
     <type>_http._tcp</type>
     <port>80</port>
-    <txt-record>Test</txt-record>
+    <txt-record>Config website</txt-record>
   </service>
 
 <service>
-    <type>_http._tcp</type>
+    <type>_danwand._http._tcp</type>
     <port>8080</port>
-    <txt-record>Test</txt-record>
+    <txt-record>danWand service</txt-record>
   </service>
 
 </service-group>
