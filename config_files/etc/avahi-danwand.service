@@ -13,10 +13,4 @@
     <txt-record>Config website</txt-record>
   </service>
 
-<service>
-    <type>_http._tcp</type>
-    <port>8080</port>
-    <txt-record>danWand service</txt-record>
-  </service>
-
 </service-group>

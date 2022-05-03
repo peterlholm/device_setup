@@ -18,10 +18,13 @@
     require('func.php');
     require('dw_func.php');
     require('menu.php');
+    $hidesignal = "";
     $ip = get_ip_address();
     $ssid = wifi_ssid();
+    if ($ssid=='') $ssid = "DanWand";
     $power = battery_power_level();
     $signal = wifi_signal_level();
+    if ($signal=="") $hidesignal="d-none";
     $internet = internet_connection()?"OK":"Error";
     $cloud_service = internet_connection(2)?"OK":"Error";
     $charging = "Charging";
@@ -59,7 +62,7 @@
           <?= get_wifi_mac() ?>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-center <?=$hidesignal?>">
         <div class="col-4">
           <label>WiFi Level</label>
         </div>
