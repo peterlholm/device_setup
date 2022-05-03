@@ -14,7 +14,7 @@
   </service>
 
 <service>
-    <type>_danwand._http._tcp</type>
+    <type>_http._tcp</type>
     <port>8080</port>
     <txt-record>danWand service</txt-record>
   </service>

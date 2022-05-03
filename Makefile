@@ -108,6 +108,7 @@ avahi:
 apache:
 	@echo "Installing Apache Webserver"
 	apt -y install apache2 php libapache2-mod-php
+	sed -i /etc/apache2/mods-available/mpm_prefork.conf -e "/[StartServers|MinSpareServers]/s/5/3/"
 	# allow apache to use camera and exec sudo
 	usermod -aG video www-data
 	usermod -aG sudo www-data

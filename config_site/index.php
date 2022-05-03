@@ -64,7 +64,7 @@
           <label>WiFi Level</label>
         </div>
         <div class="col-4">
-        <meter value="<?=$signal?>" min="-90" max="-40" low="-70" high="-50" optimum="-60" title="<?=$signal?> dBm"><?=$signal?> dBm</meter> <?=$signal?> dBm
+        <meter value="<?=$signal?>" min="-80" max="-40" low="-70" high="-60" optimum="-65" title="<?=$signal?> dBm"><?=$signal?> dBm</meter> <?=$signal?> dBm
         </div>
       </div>
       <div class="row justify-content-center">
