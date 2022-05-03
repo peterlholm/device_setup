@@ -36,7 +36,7 @@ function internet_connection($server = 1)
     if ($windows)
         $out = exec("ping -w 500 -n 1 $addr", $output, $res);
     else
-        $out = exec("ping -w 1 -c 1 $addr", $output, $res);
+        $out = exec("ping -w 1 -c 1 $addr 1>/dev/null 2>&1", $output, $res);
     #print ("res ".$res);
     #print $out;
     if ($res==0) return true;
@@ -59,8 +59,14 @@ function system_set_mode($val = "")
         case "halt":
             $cmd = "sudo systemctl halt";
             break;
+        case "restart":
+            $cmd = "sudo shutdown -r now";
+            break;
+        case "shutdown":
+            $cmd = "sudo shutdown -h now";
+            break;
         default:
-            echo "set_system_default";
+        echo "set_system_default";
             $cmd = "ls";
             break;
     }

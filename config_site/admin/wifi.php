@@ -15,6 +15,7 @@
   <div class="container">
     <?php
     require('../func.php');
+    require('../dw_func.php');
     $aplist = get_ap_list();
     require('../menu.php');
     $resulttext = "";
@@ -34,7 +35,7 @@
           $resulttext = '<div class="col-10 text-success">SSID is saved</div>';
           $disabled = "";
         }
-      } elseif ($function == "reboot") system_set_mode("reboot");
+      } elseif ($function == "reboot") system_set_mode("restart");
       else print("unknown function");
     }
     ?>

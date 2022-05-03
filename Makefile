@@ -45,6 +45,7 @@ raspbian-config:
 	systemctl stop bluetooth.service
 	systemctl disable apt-daily.timer
 	systemctl disable apt-daily-upgrade.timer
+	systemctl enable ssh.service
 	@#systemctl disable cups.service
 	@#systemctl disable cups-browsed.service
 	@# dtoverlay=pi3-disable-bt
