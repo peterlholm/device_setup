@@ -7,6 +7,7 @@
 # Check connections to wifi, internet and danwand service
 #
 
+from asyncio.subprocess import DEVNULL
 import os
 import platform
 import sys
@@ -19,12 +20,15 @@ import subprocess
 
 INTERNET_HOST = "8.8.8.8"
 DANBOTS_HOST = "danbots.com"
-_DEBUG = True
+MAX_COUNTER = 3
+_DEBUG = False
 
+i=1
 def check_connection(host):
     param = '-n' if platform.system().lower()=='windows' else '-c'
-    command = ['ping', param, '1', host]
-    if subprocess.call(command) != 0:
+    command = ['ping', '-q', param, '1', host]
+    result = subprocess.run(command, stdout=DEVNULL, stderr=DEVNULL, check=False)
+    if result.returncode != 0:
         if _DEBUG:
             print("Cannot ping ", host)
         return False
@@ -32,7 +36,8 @@ def check_connection(host):
 
 def wifi_connected():
     out = subprocess.check_output("iwgetid", shell=True)
-    if len(out==0):
+
+    if len(out)==0:
         print("No WIFI connection")
         return False
     else:
@@ -42,16 +47,14 @@ def wifi_connected():
 def check_connections():
     if check_connection(DANBOTS_HOST):
         return True
-    print ("connection to danBots - down")
+    print (f"connection to {DANBOTS_HOST} - down")
     if check_connection(INTERNET_HOST):
-        return True
-    print ("connection to internet - down")
-
-    wifi_status = wifi_connected()
-    if not wifi_status:
-        print("No Connection to WiFi")
-    else:
-        print(wifi_status)
+        print (f"connection to {INTERNET_HOST} - down")
+    # wifi_status = wifi_connected()
+    # if not wifi_status:
+    #     print("No Connection to WiFi")
+    # else:
+    #     print(wifi_status)
     return False
 
 def get_active_wifi_stations():
@@ -69,14 +72,19 @@ if len(sys.argv)>1:
 
 print(datetime.datetime.now(), "init_service starting")
 starttime = time.time()
-
+COUNTER = 0
 RUNNING = True
-
 while RUNNING:
-    check_connections()
-    time.sleep(10)
+    CONNECTED = check_connections()
+    if CONNECTED:
+        COUNTER = 0
+    else:
+        COUNTER +=1
+    if COUNTER > MAX_COUNTER:
+        RUNNING=False
+    time.sleep(60)
 
-print(datetime.datetime.now(), "Rebooting system")
-subprocess.run('sudo systemctl --message="Config rebooting" reboot', shell=True, check=False)
+print(datetime.datetime.now(), "Going to Config mode")
+subprocess.run('sudo systemctl --message="Config rebooting" isolate config.target', shell=True, check=False)
 
 print(datetime.datetime.now(), "Config.service ending")

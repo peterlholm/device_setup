@@ -9,18 +9,6 @@ Documentation=http://doc.danbots.com/mode/config.html
 After=network.target
 StartLimitIntervalSec=30
 
-#Requires=basic.target
-#Requires=hostapd.service
-#Requires=hostapd.service dnsmasq.service
-#Conflicts=resque.service resque.target dhcpcd.service wpa_supplicant.service
-#Requires=basic.target
-#Wants=
-#After=basic.target rescue.service rescue.target
-#AllowIsolate=yes
-#Type=forking
-#ExecStart=/home/pi/device_setup/bin/danwand_config 
-#Restart=always
-
 [Service]
 Type=simple
 Restart=on-failure
