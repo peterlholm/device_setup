@@ -1,0 +1,82 @@
+#!/bin/python3
+#
+# Danwand Init Mode
+#
+#   220408  PLH First version
+#
+# Check connections to wifi, internet and danwand service
+#
+
+import os
+import platform
+import sys
+import datetime
+import time
+import subprocess
+#from pathlib import Path
+
+# pylint: disable=missing-module-docstring,missing-function-docstring
+
+INTERNET_HOST = "8.8.8.8"
+DANBOTS_HOST = "danbots.com"
+_DEBUG = True
+
+def check_connection(host):
+    param = '-n' if platform.system().lower()=='windows' else '-c'
+    command = ['ping', param, '1', host]
+    if subprocess.call(command) != 0:
+        if _DEBUG:
+            print("Cannot ping ", host)
+        return False
+    return True
+
+def wifi_connected():
+    out = subprocess.check_output("iwgetid", shell=True)
+    if len(out==0):
+        print("No WIFI connection")
+        return False
+    else:
+        print("Wifi connected: ",out)
+        return out
+
+def check_connections():
+    if check_connection(DANBOTS_HOST):
+        return True
+    print ("connection to danBots - down")
+    if check_connection(INTERNET_HOST):
+        return True
+    print ("connection to internet - down")
+
+    wifi_status = wifi_connected()
+    if not wifi_status:
+        print("No Connection to WiFi")
+    else:
+        print(wifi_status)
+    return False
+
+def get_active_wifi_stations():
+    #print(os.name)
+    if os.name != "nt":
+        out = subprocess.check_output("iw dev wlan0 station dump | grep Station | wc -l", shell=True)
+    else:
+        out = 0
+    print("Number active stations", out)
+    return out
+
+if len(sys.argv)>1:
+    if sys.argv[1] == "noreboot":
+        REBOOT=False
+
+print(datetime.datetime.now(), "init_service starting")
+starttime = time.time()
+
+RUNNING = True
+
+while RUNNING:
+    check_connections()
+    time.sleep(10)
+
+print(datetime.datetime.now(), "Rebooting system")
+subprocess.run('sudo systemctl --message="Config rebooting" reboot', shell=True, check=False)
+
+print(datetime.datetime.now(), "Config.service ending")
