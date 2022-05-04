@@ -135,7 +135,7 @@ website:	danwand-lib
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 
-configmode:	hostapd dnsmasq apache website
+configmode:	hostapd dnsmasq apache website python-req config-file
 	@echo "Installing Configmode files"
 	apt install avahi-utils
 	cp ./config_files/systemd/* /etc/systemd/system
@@ -167,7 +167,7 @@ hostname:
 
 config-file:
 	@echo "create configuration files"
-	test -f /etc/danwand.conf || cp ./conf/danwand.conf /etc/danwand.conf
+	test -f /etc/danwand.conf || touch /etc/danwand.conf
 	chown danwand /etc/danwand.conf
 
 camera-util:	/boot/dt-blob.bin
@@ -175,6 +175,11 @@ camera-util:	/boot/dt-blob.bin
 	
 /boot/dt-blob.bin:
 	sudo wget https://datasheets.raspberrypi.org/cmio/dt-blob-cam1.bin -O /boot/dt-blob.bin
+
+python-req:
+	@echo "install pip3 and requirements"
+	apt-get install python3-pip
+	pip3 install -r requirements.txt
 
 # /home/pi/.ssh/id_rsa
 init-service: user-danwand config-file 

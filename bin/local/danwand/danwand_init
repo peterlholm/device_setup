@@ -125,7 +125,8 @@ def parse_request(data):
 #         if config['debug'].get('DIASLED',None):
 #             pass
 
-def get hw_measure():
+def get_hw_measure():
+    "collect dynamic hw info"
     cmd1 = "vcgencmd measure_temp | sed -e \"s/.*=\(.*\)'C/\1/\""
     cmd2 = "vcgencmd measure_volts | sed -e \"s/.*=\(.*\)V/\1/\""
     temp = subprocess.getoutput(cmd1)
@@ -155,10 +156,12 @@ if serial:
         config.add_section('server')
         config['server']['apiserver'] = APISERVER
         config['server']['computeserver'] = COMPUTESERVER
-        config['server']['registerinterval'] = REGISTERINTERVAL
+        config['server']['registerinterval'] = str(REGISTERINTERVAL)
         save_config()
 
 # check_debug(config)
+
+get_hw_measure()
 
 TICK = 0
 while LOOPING:
