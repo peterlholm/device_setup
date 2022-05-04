@@ -1,0 +1,203 @@
+#!/usr/bin/python3
+#
+# danwand init server
+#
+# temerature result from vcgencmd measure_temp
+#
+# register to cloud service
+#
+#   220504  PLH     First version
+
+
+# xpylint: disable=c-extension-no-member
+
+#import os
+#from logging import exception
+from asyncio import subprocess
+import platform
+#import subprocess
+import time
+import datetime
+import signal
+import json
+#import runpy
+#import urllib.parse
+from urllib.parse import quote, quote_plus
+import configparser
+import netifaces as ni
+import requests
+#import socket
+
+PING_HOST="8.8.8.8"
+REBOOT_CONFIG_TIME = 61
+REGISTERINTERVAL = 300
+APISERVER = "http://api.danbots.com/api/"
+COMPUTESERVER = "http://compute.danbots.com"
+REGISTERPATH = "register"
+CONFIGFILE = "E:\\danwand.conf" if platform.system().lower()=='windows' else "/etc/danwand.conf"
+INTERFACE = 'wlan0'
+POWER_IDLE = 1.5  # watt
+POWER_WIFI_IDLE = 0.9
+POWER_CAMERA_ACTIVE = 1.5
+SWVERSION = "0.2.0"
+LOOPING = True
+
+_DEBUG = True
+
+def get_hw_info():
+    "Return the raspberry hw string"
+    try:
+        with open('/proc/device-tree/model', 'r', encoding='UTF-8') as filed:
+            hw_info = filed.read()
+    except FileNotFoundError:
+        hw_info = "no HW info"
+    return hw_info
+
+HW_MODEL = quote_plus(get_hw_info())
+
+config = configparser.ConfigParser()
+
+def receive_signal(signal_number, frame):
+    "signal handling"
+    global LOOPING      # pylint: disable=global-statement
+    print('Received Signal:', signal_number, frame)
+    LOOPING = False
+
+def save_config():
+    "Save configuration to config file"
+    with open(CONFIGFILE, 'w', encoding="UTF-8") as configfile:
+        config.write(configfile)
+
+def get_serial():
+    "get wifi eth address as serial"
+    try:
+        with open('/sys/class/net/wlan0/address', 'r', encoding="UTF-8") as filed:
+            wlan = filed.read()
+        return wlan.replace(':', '')
+    except FileNotFoundError:
+        return '12345678'
+
+def get_ip():
+    "get wlan ip address"
+    try:
+        ni.ifaddresses('wlan0')
+    except ValueError:
+        return "1.2.3.4"
+    ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
+    return ip
+
+def create_url(apiserv=APISERVER):
+    "Create regiser url"
+    return apiserv + REGISTERPATH
+
+def get_charge():
+    "return charging dict"
+    return {'capasity': 90, 'voltage': 3.7, 'charging':True}
+
+def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval):
+    "Create url param string"
+    #global HW_MODEL, SWVERSION
+    return "deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
+            "&swversion=" + SWVERSION + "&localip=" + lipaddr + "&chargestate=" + quote_plus(str(lcharge)) + \
+            "&computeserver=" + quote_plus(lcomputeserver) + \
+            "&registerinterval=" + str(lregisterinterval)
+
+def parse_request(data):
+    "parse register response data"
+    #update = False
+    content = json.loads(data)
+    print(content)
+    #return
+    # if content.get('apiurl'):
+    #     if config.get('server', 'ApiServer', fallback="") != content.get('apiurl'):
+    #         config['server']['ApiServer'] = content.get('apiurl')
+    #         update = True
+    # commandmode = content.get('commandmode')
+    # if commandmode == "picture":
+    #     print("Starting picture")
+    #     runpy.run_path('/home/danwand/danbots-scanapp/take_pic.py')
+    # if update:
+    #     save_config()
+
+# def check_debug(config):
+#     "set debug modes"
+#     if config.has_section('debug'):
+#         if config['debug'].get('DIASLED',None):
+#             pass
+
+def get hw_measure():
+    cmd1 = "vcgencmd measure_temp | sed -e \"s/.*=\(.*\)'C/\1/\""
+    cmd2 = "vcgencmd measure_volts | sed -e \"s/.*=\(.*\)V/\1/\""
+    temp = subprocess.getoutput(cmd1)
+    volt = subprocess.getoutput(cmd2)
+    print (temp, volt)
+    measure = {"temp": temp, "volt": volt}
+    print(measure)
+    return measure
+
+############  starting #############
+
+print(datetime.datetime.now(), "DanWand init Starting")
+
+#signal.signal(signal.SIGHUP, receiveSignal)
+signal.signal(signal.SIGTERM, receive_signal)
+signal.signal(signal.SIGINT, receive_signal)
+
+serial = get_serial()
+if serial:
+    with open(CONFIGFILE, 'r', encoding="UTF-8") as fd:
+        config.read_file(fd)
+    if not config.has_section('device'):
+        config.add_section('device')
+    if serial != config['device'].get('deviceid'):
+        config['device']['deviceid'] = serial
+    if not config.has_section('server'):
+        config.add_section('server')
+        config['server']['apiserver'] = APISERVER
+        config['server']['computeserver'] = COMPUTESERVER
+        config['server']['registerinterval'] = REGISTERINTERVAL
+        save_config()
+
+# check_debug(config)
+
+TICK = 0
+while LOOPING:
+    TICK -= 5
+    if TICK > 0:
+        time.sleep(5)
+        continue
+    with open(CONFIGFILE, 'r', encoding="UTF-8") as fd:
+        config.read_file(fd)
+    if _DEBUG:
+        print('Sections: ', config.sections())
+    apiserver = config['server'].get('apiserver',APISERVER)
+
+    url = create_url(apiserver)
+    deviceid = config['device']['DeviceID']
+    ipaddr = get_ip()
+    charge = get_charge()
+    computeserver = config['server'].get('computeserver',"")
+    registerinterval = int(config['server'].get('registerinterval', REGISTERINTERVAL))
+    params = create_param(deviceid, ipaddr, quote(str(charge)), computeserver, registerinterval)
+    req_url = url + '?' + params
+    TICK = registerinterval
+    if _DEBUG:
+        print(req_url)
+    try:
+        r = requests.get(req_url)
+    except requests.ConnectionError as ex:
+        print(datetime.datetime.now(), "ConnectionError:", ex)
+    except requests.Timeout:
+        print(datetime.datetime.now(), "TimeOut:", ex)
+    except requests.exceptions.RequestException as ex:
+        print("RequestException:", ex)
+    else:
+        if r:
+            print(datetime.datetime.now(),'Register')
+            print(r.text)
+            parse_request(r.text)
+        else:
+            print('Noget gik galt: ', r.status_code)
+            print('URL:', req_url)
+
+print(datetime.datetime.now(), "Receive signal - closing")

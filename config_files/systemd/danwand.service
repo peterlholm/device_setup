@@ -14,7 +14,8 @@ RestartSec=10
 User=danwand
 Environment=PYTHONUNBUFFERED=1
 #StandardOutput=append:/var/log/danwand.log
-ExecStart=/usr/local/bin/danwand/danwand_init.py 
+StandardOutput=journal
+ExecStart=/usr/local/bin/danwand/danwand_init
 #WorkingDirectory=/home/danwand/init
 
 [Install]

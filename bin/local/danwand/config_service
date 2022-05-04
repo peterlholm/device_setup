@@ -4,6 +4,8 @@
 #
 #   220408  PLH First version
 #
+# This service check for connections and return to normal mode
+#
 
 import os
 import sys
@@ -12,17 +14,16 @@ import time
 import subprocess
 from pathlib import Path
 
-# pylint: disable=missing-module-docstring,missing-function-docstring
+# pylint: disable=missing-module-docstring
 
 REBOOT_NOUSER_SECONDS = 300  # 5 min
 REBOOT_USER_SECONDS = 1800   # 30 min
-#USER_ACTIVE_FILE = Path('/tmp/user_active')
-#DANWAND_SERVICE = Path('/usr/local/bin/danwand/danwand_service')
 KEEP_CONFIG_MODE_FILE = Path('/var/lib/danwand/configmode')
 REBOOT= True
 _DEBUG = True
 
 def get_active_wifi_stations():
+    "Gent the number of connected stations to access point"
     #print(os.name)
     if os.name != "nt":
         out = subprocess.check_output("iw dev wlan0 station dump | grep Station | wc -l", shell=True)
@@ -30,11 +31,9 @@ def get_active_wifi_stations():
         out = 0
     print("Number active stations", out)
     return out
-
 if len(sys.argv)>1:
     if sys.argv[1] == "noreboot":
         REBOOT=False
-
 print(datetime.datetime.now(), "danWand config starting")
 starttime = time.time()
 endtime = starttime + REBOOT_NOUSER_SECONDS

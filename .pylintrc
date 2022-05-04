@@ -1,9 +1,13 @@
+[MASTER]
 
+extension-pkg-allow-list=netifaces
 
 [MESSAGES CONTROL]
+enable=W,E,R,F,C
 
-disable=missing-dfunction-docstring,
+disable=C0114,
         missing-module-docstring,
+        xmissing-function-docstring,
         missing-class-docstring,
         line-too-long
 
