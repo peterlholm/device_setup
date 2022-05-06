@@ -17,6 +17,8 @@ User=root
 #Environment=PYTHONUNBUFFERED=1
 #StandardOutput=append:/var/log/config_service.log
 StandardOutput=journal
-ExecStart=/usr/local/bin/danwand/boot_power  
+ExecStart=/usr/local/bin/danwand/power_init  
 #WorkingDirectory=/tmp
 
+[Install]
+WantedBy=multi-user.target

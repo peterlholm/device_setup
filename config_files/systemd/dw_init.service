@@ -15,7 +15,6 @@ Restart=on-failure
 RestartSec=10
 User=root
 Environment=PYTHONUNBUFFERED=1
-#StandardOutput=append:/var/log/config_service.log
 StandardOutput=journal
 ExecStart=/usr/local/bin/danwand/init_service  
 WorkingDirectory=/tmp

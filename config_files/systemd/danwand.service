@@ -13,10 +13,8 @@ Restart=always
 RestartSec=10
 User=danwand
 Environment=PYTHONUNBUFFERED=1
-#StandardOutput=append:/var/log/danwand.log
 StandardOutput=journal
-ExecStart=/usr/local/bin/danwand/danwand_init
-#WorkingDirectory=/home/danwand/init
+ExecStart=/usr/local/bin/danwand/danwand_service
 
 [Install]
 WantedBy=multi-user.target

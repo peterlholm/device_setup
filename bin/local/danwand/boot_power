@@ -1,9 +1,0 @@
-#!/bin/bash
-# 
-# power start up
-#
-# turn power on (execute before 10 sek)
-#
-
-echo "Starting power boot script"
-date
