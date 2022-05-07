@@ -1,0 +1,620 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sat May  7 13:30:59 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+PAPERSIZE = a4
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_SESSION_CLASS = user
+# environment
+SNAP_COMMON = /var/snap/code/common
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+IM_CONFIG_PHASE = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/peter/sw/danbots/device_setup
+# makefile
+SHELL = /bin/sh
+# environment
+SNAP_DATA = /var/snap/code/95
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+JOURNAL_STREAM = 8:46219
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# environment
+SNAP_INSTANCE_NAME = code
+# environment
+SNAP_ARCH = amd64
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /var/lib/snapd/desktop/applications/code_code.desktop
+# environment
+USERNAME = peter
+# environment
+MAKELEVEL := 0
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+_ = /snap/code/95/usr/share/code/code
+# environment
+MANAGERPID = 1528
+# makefile (from 'Makefile', line 10)
+WEBSITEDIR = /var/www/danwand
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+LC_NAME = en_DK.UTF-8
+# environment
+VSCODE_CWD = /home/peter
+# environment
+GSETTINGS_SCHEMA_DIR = /snap/code/95/usr/share/glib-2.0/schemas
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/peter/.local/bin:/home/peter/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+SESSION_MANAGER = local/PHGame:@/tmp/.ICE-unix/1748,unix/PHGame:/tmp/.ICE-unix/1748
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GDK_PIXBUF_MODULE_FILE = /home/peter/snap/code/common/.cache/gdk-pixbuf-loaders.cache
+# environment
+SNAP = /snap/code/95
+# environment
+SNAP_VERSION = 57fd6d01
+# makefile (from 'Makefile', line 7)
+CONFDIR = conf
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_LOG_STACK = false
+# environment
+DISABLE_WAYLAND = 1
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+INVOCATION_ID = f8ac3790feac4d9286b25d326ecc172b
+# environment
+GDK_PIXBUF_MODULEDIR = /snap/code/95/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = 
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2154
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :1
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+SNAP_INSTANCE_KEY = 
+# environment
+PWD = /home/peter/sw/danbots/device_setup
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 1710
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# makefile (from 'Makefile', line 8)
+HOME = /home/danwand
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CLI = 1
+# environment
+VSCODE_CODE_CACHE_PATH = /home/peter/.config/Code/CachedData/57fd6d0195bb9b9d1b49f6da5db789060795de47
+# environment
+LOGNAME = peter
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
+# environment
+SNAP_CONTEXT = nhc6GqI5VpM2u-rG8KXYGkFB3oUPsvwilvhkksfJyndbZuCh36yt
+# automatic
++F = $(notdir $+)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+SNAP_USER_COMMON = /home/peter/snap/code/common
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+LC_TIME = en_DK.UTF-8
+# environment
+SNAP_REAL_HOME = /home/peter
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SNAP_USER_DATA = /home/peter/snap/code/95
+# environment
+SHLVL = 0
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-167a3263-e59d-41ea-9db0-45d90f3ac83e.sock
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = peter
+# environment
+SNAP_REVISION = 95
+# environment
+LC_MONETARY = en_DK.UTF-8
+# makefile
+.DEFAULT_GOAL := default
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LC_TELEPHONE = en_DK.UTF-8
+# default
+MAKE_COMMAND := make
+# makefile (from 'Makefile', line 9)
+BACKUPDIR = $(HOME)/backupconf
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+LANGUAGE = en_US
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-68c0f3d2-1.67.0-main.sock
+# environment
+BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# environment
+LC_PAPER = en_DK.UTF-8
+# environment
+LC_IDENTIFICATION = en_DK.UTF-8
+# environment
+QT_ACCESSIBILITY = 1
+# default
+MAKEFILES := 
+# environment
+SNAP_COOKIE = nhc6GqI5VpM2u-rG8KXYGkFB3oUPsvwilvhkksfJyndbZuCh36yt
+# environment
+LC_NUMERIC = en_DK.UTF-8
+# automatic
+<F = $(notdir $<)
+# environment
+LC_MEASUREMENT = en_DK.UTF-8
+# environment
+SNAP_NAME = code
+# environment
+LC_ALL = C
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SNAP_REEXEC = 
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# default
+.RECIPEPREFIX := 
+# environment
+LC_ADDRESS = en_DK.UTF-8
+# environment
+LANG = C
+# environment
+VSCODE_PID = 2211
+# variable set hash-table stats:
+# Load=134/1024=13%, Rehash=0, Collisions=23/160=14%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+ 
+
+# Directories
+
+# . (device 2053, inode 11406248): 11 files, no impossibilities.
+
+# 11 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+/boot/dt-blob.bin:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 182):
+	sudo wget https://datasheets.raspberrypi.org/cmio/dt-blob-cam1.bin -O /boot/dt-blob.bin
+
+init-service: user-danwand config-file
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 191):
+	@echo "creating danwand service"
+	#test -d /home/danwand/init ||mkdir /home/danwand/init
+	@echo "install pip3"
+	apt-get install python3-pip
+	pip3 install -r requirements.txt
+	#cp ./bin/danwand_init.py /home/danwand/init/
+	cp ./conf/danwand.service /etc/systemd/system/
+	systemctl enable danwand.service
+	systemctl restart danwand.service
+
+user-peter:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 75):
+	@echo generating peter 
+	id peter ||  useradd -m -c "Peter Holm" -G sudo -s /bin/bash peter 
+	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
+	sudo usermod -a -G gpio,video peter
+	sudo mkdir -p -m 700 /home/peter/.ssh
+	sudo cp ./config_files/user/authorized_keys /home/peter/.ssh
+	sudo chown -R peter:peter /home/peter/.ssh
+
+dnsmasq:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 97):
+	@echo "Installing dnsmasq"
+	apt -y install dnsmasq
+	systemctl stop dnsmasq
+	systemctl unmask dnsmasq
+	systemctl disable dnsmasq
+	cp ./config_files/etc/dnsmasq.conf /etc/dnsmasq.d/danwand.conf
+	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
+
+apache:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 110):
+	@echo "Installing Apache Webserver"
+	apt -y install apache2 php libapache2-mod-php
+	sed -i /etc/apache2/mods-available/mpm_prefork.conf -e "/[StartServers|MinSpareServers]/s/5/3/"
+	# allow apache to use camera and exec sudo
+	usermod -aG video www-data
+	usermod -aG sudo www-data
+	cp ./config_files/apache/020_www-data /etc/sudoers.d/
+	cp ./config_files/apache/passwords /etc/apache2/
+	cp ./config_files/apache/groups /etc/apache2/
+	#test -f /etc/sudoers.d/020_www-data || echo "www-data ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_www-data
+	#systemctl stop apache2
+	a2dissite 000-default
+	systemctl restart apache2
+
+raspbian-config:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 39):
+	timedatectl set-timezone Europe/Copenhagen
+	@echo "disable bluetooth"
+	systemctl disable hciuart.service
+	systemctl stop hciuart.service
+	@#systemctl disable bluealsa.service
+	systemctl disable bluetooth.service
+	systemctl stop bluetooth.service
+	systemctl disable apt-daily.timer
+	systemctl disable apt-daily-upgrade.timer
+	systemctl enable ssh.service
+	@#systemctl disable cups.service
+	@#systemctl disable cups-browsed.service
+	@# dtoverlay=pi3-disable-bt
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-05 19:51:21.924951579
+#  File has been updated.
+#  Successfully updated.
+
+config-file:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 174):
+	@echo "create configuration files"
+	test -f /etc/danwand.conf || touch /etc/danwand.conf
+	chown danwand /etc/danwand.conf
+
+debug: console debugtools user-peter
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+console:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 62):
+	@echo "enable console"
+	sed -i /etc/default/keyboard -e "s/^XKBLAYOUT.*/XKBLAYOUT=\"dk\"/"
+	sed -i /boot/config.txt -e "s/^#config_hdmi_boost.*/config_hdmi_boost=4/"
+	timedatectl set-timezone Europe/Copenhagen
+	@echo "You need to reboot before changes appear"
+
+hostname:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 141):
+	@echo "Setting hostname to danwand"
+	hostnamectl set-hostname danwand
+
+danwand-lib: user-danwand
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 127):
+	mkdir -p /var/lib/danwand 
+	chown danwand:www-data /var/lib/danwand
+	chmod ug+rw /var/lib/danwand
+
+help:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 18):
+	@echo "Use the following commands:\n"
+	@echo "make install\tinstall all required basis sw"
+	@echo "make apache\tinstall and configure apache modules"
+	@echo "make console\tConfigure console for hdmi and keyboard for DK"
+	@echo "make raspbian-config\tdisable unused raspbian services"
+	@echo "make ipv6-disable\t,Disable ipv6"
+	@echo "make website\tinstall website"
+	@echo "make camera-util\tInstall camera dt-blop"
+	@echo "--"
+	@echo "make service\tinstall register service"
+	@echo "make python\tinstall Phython requirements"
+	@echo "make hostname\tset hostname and time zone"
+	@echo "make changehostname\tset new hostname"
+	@echo "make user\tcreate users"
+	
+	@echo "make debugtools\tinstall debug sw"
+	@echo "make hotspot\tcreate hostapd hotspot"
+
+default:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 13):
+	@echo "make install\tinstall sw and set default config"
+	@echo "make raspbian-config\tConfigure raspbian for danwand and stop unused service"
+	@echo "make help\tDisplay alternative options"
+ 
+
+camera-util: /boot/dt-blob.bin
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 179):
+	echo camera utils in place
+	
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+user-danwand:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 132):
+	@echo generating danwand user
+	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
+	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
+	sudo usermod -a -G gpio,video danwand
+	sudo mkdir -p -m 700 /home/danwand/.ssh
+	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
+	sudo chown -R danwand:danwand /home/danwand/.ssh
+
+normalmode:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 171):
+	systemctl enable danwand.service
+
+avahi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 106):
+	@echo "Installing avahi services"
+	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services/danwand.service
+
+website: danwand-lib
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 147):
+	@echo "Installing config site"
+	rm -fr /var/www/config
+	cp -r ./config_site /var/www/config
+	chgrp -R www-data /var/www/config
+	cp ./config_files/apache/config.conf /etc/apache2/sites-available
+	a2enmod authz_groupfile
+	a2ensite config.conf
+	systemctl reload apache2
+	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
+	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
+
+debugtools:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 69):
+	@echo "Installing debug tools"
+	apt install -y aptitude
+	apt install -y avahi-utils
+	apt install -y tcpdump dnsutils
+
+hostapd:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 88):
+	@echo "Installing hotspot"
+	rfkill unblock wlan
+	apt install hostapd
+	systemctl stop hostapd
+	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
+	systemctl unmask hostapd
+	systemctl disable hostapd
+
+ipv6_disable:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 56):
+	echo "net.ipv6.conf.all.disable_ipv6=0" >>/etc/sysctl.conf
+	echo "net.ipv6.conf.default.disable_ipv6=0" >>/etc/sysctl.conf
+	echo "net.ipv6.conf.lo.disable_ipv6=0" >>/etc/sysctl.conf
+	@echo ipv6 is disabled
+
+users: user-danwand
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+python-req:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 185):
+	@echo "install pip3 and requirements"
+	apt-get install python3-pip
+	pip3 install -r requirements.txt
+
+configmode: hostapd dnsmasq apache website python-req config-file
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 159):
+	@echo "Installing Configmode files"
+	apt install avahi-utils
+	cp ./config_files/systemd/* /etc/systemd/system
+	cp -r ./bin/local/* /usr/local/bin/
+	cp ./config_files/etc/dw_dhcpcd.conf /etc
+	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services
+	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
+	#systemctl disable --now avahi-alias@wand.local.service
+
+install: raspbian-config apache website console configmode
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 204):
+	@echo "All SW Installed"
+
+# files hash-table stats:
+# Load=29/1024=3%, Rehash=0, Collisions=0/63=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 41 / storage = 399 B / avg = 9 B
+# current buf: size = 8162 B / used = 399 B / count = 41 / avg = 9 B
+
+# strcache performance: lookups = 90 / hit rate = 54%
+# hash-table stats:
+# Load=41/8192=1%, Rehash=0, Collisions=1/90=1%
+# Finished Make data base on Sat May  7 13:30:59 2022
+
+ 

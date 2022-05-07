@@ -161,7 +161,7 @@ if serial:
 
 # check_debug(config)
 
-get_hw_measure()
+#get_hw_measure()
 
 TICK = 0
 while LOOPING:

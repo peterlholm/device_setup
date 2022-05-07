@@ -46,8 +46,6 @@ raspbian-config:
 	systemctl disable apt-daily.timer
 	systemctl disable apt-daily-upgrade.timer
 	systemctl enable ssh.service
-	@#systemctl disable cups.service
-	@#systemctl disable cups-browsed.service
 	@# dtoverlay=pi3-disable-bt
 
 # debugging
@@ -102,10 +100,6 @@ dnsmasq:
 	cp ./config_files/etc/dnsmasq.conf /etc/dnsmasq.d/danwand.conf
 	cp ./config_files/etc/hostapd.conf /etc/hostapd/hostapd.conf
 
-avahi:
-	@echo "Installing avahi services"
-	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services/danwand.service
-
 apache:
 	@echo "Installing Apache Webserver"
 	apt -y install apache2 php libapache2-mod-php
@@ -120,6 +114,38 @@ apache:
 	#systemctl stop apache2
 	a2dissite 000-default
 	systemctl restart apache2
+
+/var/lib/danwand/install-system: raspian-config console debug hostapd dnsmasq apache
+	@echo standard systemfiles Installed
+	mkdir -p /var/lib/danwand
+	touch /var/lib/danwand/install-system
+
+install-system:	/var/lib/danwand/install-system
+	@echo System files Installed
+	
+# commond danwand
+
+avahi:
+	@echo "Installing avahi services"
+	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services/danwand.service
+
+danwand-lib:  user-danwand
+	mkdir -p /var/lib/danwand 
+	chown danwand:www-data /var/lib/danwand
+	chmod ug+rw /var/lib/danwand
+
+user-danwand:
+	@echo generating danwand user
+	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
+	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
+	sudo usermod -a -G gpio,video danwand
+	sudo mkdir -p -m 700 /home/danwand/.ssh
+	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
+	sudo chown -R danwand:danwand /home/danwand/.ssh
+
+hostname:
+	@echo "Setting hostname to danwand"
+	hostnamectl set-hostname danwand
 
 # config site
 
@@ -145,25 +171,10 @@ configmode:	hostapd dnsmasq apache website python-req config-file
 	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
 	#systemctl disable --now avahi-alias@wand.local.service
 
-danwand-lib:  user-danwand
-	mkdir -p /var/lib/danwand 
-	chown danwand:www-data /var/lib/danwand
-	chmod ug+rw /var/lib/danwand
+# normal mode
 
-user-danwand:
-	@echo generating danwand user
-	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
-	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
-	sudo usermod -a -G gpio,video danwand
-	sudo mkdir -p -m 700 /home/danwand/.ssh
-	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
-	sudo chown -R danwand:danwand /home/danwand/.ssh
-
-hostname:
-	@echo "Setting hostname to danwand"
-	hostnamectl set-hostname danwand
-
-
+normalmode:
+	systemctl enable danwand.service
 
 config-file:
 	@echo "create configuration files"
@@ -193,13 +204,7 @@ init-service: user-danwand config-file
 	systemctl enable danwand.service
 	systemctl restart danwand.service
 
-
-
-
 users:	user-danwand 
-
-
-
 
 install: raspbian-config apache website console  configmode
 	@echo "All SW Installed"
