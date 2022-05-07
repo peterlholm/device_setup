@@ -1,7 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/peter/sw/danbots/device_setup'
-echo "make install\tinstall sw and set default config"
-echo "make raspbian-config\tConfigure raspbian for danwand and stop unused service"
-echo "make help\tDisplay alternative options"
-make: Leaving directory '/home/peter/sw/danbots/device_setup'
- 
