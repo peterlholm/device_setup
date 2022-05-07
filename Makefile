@@ -17,21 +17,17 @@ default:
 help :
 	@echo "Use the following commands:\n"
 	@echo "make install\tinstall all required basis sw"
-	@echo "make apache\tinstall and configure apache modules"
+	@echo "make debug\tdebug users and console"
 	@echo "make console\tConfigure console for hdmi and keyboard for DK"
-	@echo "make raspbian-config\tdisable unused raspbian services"
 	@echo "make ipv6-disable\t,Disable ipv6"
 	@echo "make website\tinstall website"
 	@echo "make camera-util\tInstall camera dt-blop"
 	@echo "--"
 	@echo "make service\tinstall register service"
 	@echo "make python\tinstall Phython requirements"
-	@echo "make hostname\tset hostname and time zone"
-	@echo "make changehostname\tset new hostname"
-	@echo "make user\tcreate users"
-	
+	@echo "make changehostname\tset new hostname"	
 	@echo "make debugtools\tinstall debug sw"
-	@echo "make hotspot\tcreate hostapd hotspot"
+
 
 # adjust raspian service
 
@@ -78,7 +74,17 @@ user-peter:
 	sudo cp ./config_files/user/authorized_keys /home/peter/.ssh
 	sudo chown -R peter:peter /home/peter/.ssh
 
-debug: console debugtools user-peter
+user-alexander:
+	@echo generating alexander 
+	id alexander ||  useradd -m -c "Alexander" -G sudo -s /bin/bash alexander 
+	test -f /etc/sudoers.d/020_alexander || echo "alexander ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_alexander
+	sudo usermod -a -G gpio,video alexander
+	sudo mkdir -p -m 700 /home/alexander/.ssh
+	sudo cp ./config_files/user/authorized_keys /home/alexander/.ssh
+	sudo chown -R alexander:alexander /home/alexander/.ssh
+	sudo sed -e /etc/shadow -s '/alexander/s/!/$y$j9T$5HEecDelneptGRDCNbiRe0$2kcInTe0Lkd1W7K/DCQDlvkUtWBFrDAA17EMJM7EE54/'
+
+debug: console debugtools user-peter user-alexander
 
 # standard linux services
 
@@ -128,6 +134,13 @@ install-system:	/var/lib/danwand/install-system
 avahi:
 	@echo "Installing avahi services"
 	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services/danwand.service
+# general danwand
+
+config-file:
+	@echo "create configuration files"
+	test -f /etc/danwand.conf || touch /etc/danwand.conf
+	chown danwand /etc/danwand.conf
+	chmod a+rw /etc/danwand.conf
 
 danwand-lib:  user-danwand
 	mkdir -p /var/lib/danwand 
@@ -161,11 +174,9 @@ website:	danwand-lib
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 
-configmode:	hostapd dnsmasq apache website python-req config-file
+configmode:	hostapd dnsmasq apache website config-file danwand-services
 	@echo "Installing Configmode files"
 	apt install avahi-utils
-	cp ./config_files/systemd/* /etc/systemd/system
-	cp -r ./bin/local/* /usr/local/bin/
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
 	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services
 	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
@@ -175,11 +186,14 @@ configmode:	hostapd dnsmasq apache website python-req config-file
 
 normalmode:
 	systemctl enable danwand.service
+# standard services
 
-config-file:
-	@echo "create configuration files"
-	test -f /etc/danwand.conf || touch /etc/danwand.conf
-	chown danwand /etc/danwand.conf
+danwand-services:
+	@echo Installing danWand Services
+	cp ./config_files/systemd/* /etc/systemd/system
+	cp -r ./bin/local/* /usr/local/bin/
+
+# untestet
 
 camera-util:	/boot/dt-blob.bin
 	echo camera utils in place
