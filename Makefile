@@ -82,7 +82,7 @@ user-alexander:
 	sudo mkdir -p -m 700 /home/alexander/.ssh
 	sudo cp ./config_files/user/authorized_keys /home/alexander/.ssh
 	sudo chown -R alexander:alexander /home/alexander/.ssh
-	sudo sed -e /etc/shadow -s '/alexander/s/!/$y$j9T$5HEecDelneptGRDCNbiRe0$2kcInTe0Lkd1W7K/DCQDlvkUtWBFrDAA17EMJM7EE54/'
+	sudo sed -e /etc/shadow -s '/alexander/s?!?$y$j9T$5HEecDelneptGRDCNbiRe0$2kcInTe0Lkd1W7K/DCQDlvkUtWBFrDAA17EMJM7EE54?'
 
 debug: console debugtools user-peter user-alexander
 
@@ -220,5 +220,5 @@ init-service: user-danwand config-file
 
 users:	user-danwand 
 
-install: raspbian-config apache website console  configmode
+install: install-system website configmode
 	@echo "All SW Installed"
