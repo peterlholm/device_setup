@@ -19,3 +19,5 @@ StandardOutput=journal
 ExecStart=/usr/local/bin/danwand/init_service  
 WorkingDirectory=/tmp
 
+[Install]
+WantedBy=multi-user.target

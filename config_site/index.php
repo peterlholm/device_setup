@@ -19,6 +19,7 @@
     require('dw_func.php');
     require('menu.php');
     $hidesignal = "";
+    $hostname = gethostname();
     $ip = get_ip_address();
     $ssid = wifi_ssid();
     if ($ssid=='') $ssid = "DanWand";
@@ -38,6 +39,14 @@
       <br>
       <h1 class="text-center">danWand configuration</h1>
       <br><br>
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <label>HostName</label>
+        </div>
+        <div class="col-4">
+          <?=$hostname?>
+        </div>
+      </div>
       <div class="row justify-content-center">
         <div class="col-4">
           <label>WIFI SSID</label>
