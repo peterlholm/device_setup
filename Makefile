@@ -159,6 +159,8 @@ user-danwand:
 hostname:
 	@echo "Setting hostname to danwand"
 	hostnamectl set-hostname danwand
+	sed -i /etc/hosts -e '/127.0.1.1/s/127.0.1.1\t.*/127.0.1.1\tdanwand/'
+	@echo hostname changed after reboot
 
 # config site
 
@@ -204,6 +206,8 @@ camera-util:	/boot/dt-blob.bin
 
 python-req:
 	@echo "install pip3 and requirements"
+	apt update
+	apt upgrade
 	apt-get install python3-pip
 	pip3 install -r requirements.txt
 
