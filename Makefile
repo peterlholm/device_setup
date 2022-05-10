@@ -195,6 +195,7 @@ danwand-services:
 	@echo Installing danWand Services
 	cp ./config_files/systemd/* /etc/systemd/system
 	cp -r ./bin/local/* /usr/local/bin/
+	systemctl enable danwand.service
 
 # untestet
 
@@ -225,5 +226,5 @@ init-service: user-danwand config-file
 
 users:	user-danwand 
 
-install: install-system website configmode
+install: install-system website configmode python-req danwand-services
 	@echo "All SW Installed"
