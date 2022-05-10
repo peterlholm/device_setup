@@ -27,6 +27,7 @@ def get_active_wifi_stations():
     #print(os.name)
     if os.name != "nt":
         out = subprocess.check_output("iw dev wlan0 station dump | grep Station | wc -l", shell=True)
+        out = int(out)
     else:
         out = 0
     print("Number active stations", out)

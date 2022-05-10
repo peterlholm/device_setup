@@ -181,7 +181,7 @@ configmode:	hostapd dnsmasq apache website config-file danwand-services
 	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services
 	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
 	#systemctl disable --now avahi-alias@wand.local.service
-	systemctl enable danwand_init.service
+	systemctl enable dw_init.service
 
 # normal mode
 
