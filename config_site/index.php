@@ -109,7 +109,9 @@
           <label>Power Level</label>
         </div>
         <div class="col-4">
-        <meter value="<?=$power?>" min="0" max="100" low="25" high="80" optimum="85" title="Charge <?=$power?>%"><?=$power?>%</meter> <?=$charging?>
+        <meter value="<?=$power?>" min="0" max="100" low="25" high="80" optimum="85" title="Charge <?=$power?>%"><?=$power?>%</meter> 
+        <img src="pic/lightning.png"/>
+        <?=$charging?>
         </div>
       </div>
 

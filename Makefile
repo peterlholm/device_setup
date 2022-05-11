@@ -212,18 +212,18 @@ python-req:
 	pip3 install -r requirements.txt
 
 # /home/pi/.ssh/id_rsa
-init-service: user-danwand config-file 
+init-servicexxx: user-danwand config-file 
 	@echo "creating danwand service"
 	#test -d /home/danwand/init ||mkdir /home/danwand/init
 	@echo "install pip3"
 	apt-get install python3-pip
 	pip3 install -r requirements.txt
-	#cp ./bin/danwand_init.py /home/danwand/init/
-	cp ./conf/danwand.service /etc/systemd/system/
+	#cp ./bin/local/danwand/danwand_service /usr/local/bin/danwand/danwand_service
+	#cp ./conf/danwand.service /etc/systemd/system/
 	systemctl enable danwand.service
 	systemctl restart danwand.service
 
 users:	user-danwand 
 
-install: install-system website configmode
+install: install-system website configmode danwand_service
 	@echo "All SW Installed"
