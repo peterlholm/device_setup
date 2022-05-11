@@ -65,24 +65,28 @@ debugtools:
 	apt install -y avahi-utils
 	apt install -y tcpdump dnsutils
 
+make-user: *.user
+	@echo Making $?
+
 user-peter:
 	@echo generating peter 
 	id peter ||  useradd -m -c "Peter Holm" -G sudo -s /bin/bash peter 
 	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
-	sudo usermod -a -G gpio,video peter
-	sudo mkdir -p -m 700 /home/peter/.ssh
-	sudo cp ./config_files/user/authorized_keys /home/peter/.ssh
-	sudo chown -R peter:peter /home/peter/.ssh
+	usermod -a -G gpio,video peter
+	mkdir -p -m 700 /home/peter/.ssh
+	cp ./config_files/user/authorized_keys /home/peter/.ssh
+	chown -R peter:peter /home/peter/.ssh
+	echo 'peter:$y$j9T$5HEecDelneptGRDCNbiRe0$2kcInTe0Lkd1W7K/DCQDlvkUtWBFrDAA17EMJM7EE54?' | chpasswd -e
 
 user-alexander:
 	@echo generating alexander 
 	id alexander ||  useradd -m -c "Alexander" -G sudo -s /bin/bash alexander 
 	test -f /etc/sudoers.d/020_alexander || echo "alexander ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_alexander
-	sudo usermod -a -G gpio,video alexander
-	sudo mkdir -p -m 700 /home/alexander/.ssh
-	sudo cp ./config_files/user/authorized_keys /home/alexander/.ssh
-	sudo chown -R alexander:alexander /home/alexander/.ssh
-	#sudo sed -e /etc/shadow -s '/alexander/s?!?$y$j9T$5HEecDelneptGRDCNbiRe0$2kcInTe0Lkd1W7K/DCQDlvkUtWBFrDAA17EMJM7EE54?'
+	usermod -a -G gpio,video alexander
+	mkdir -p -m 700 /home/alexander/.ssh
+	cp ./config_files/user/authorized_keys /home/alexander/.ssh
+	chown -R alexander:alexander /home/alexander/.ssh
+	echo 'alexander:$y$j9T$5HEecDelneptGRDCNbiRe0$2kcInTe0Lkd1W7K/DCQDlvkUtWBFrDAA17EMJM7EE54?' | chpasswd -e
 
 debug: console debugtools user-peter user-alexander
 
@@ -113,6 +117,8 @@ apache:
 	# allow apache to use camera and exec sudo
 	usermod -aG video www-data
 	usermod -aG sudo www-data
+
+apache-config:
 	cp ./config_files/apache/020_www-data /etc/sudoers.d/
 	cp ./config_files/apache/passwords /etc/apache2/
 	cp ./config_files/apache/groups /etc/apache2/
@@ -121,7 +127,7 @@ apache:
 	a2dissite 000-default
 	systemctl restart apache2
 
-/var/lib/danwand/install-system: raspbian-config console debug hostapd dnsmasq apache
+/var/lib/danwand/install-system: raspbian-config console debug hostapd dnsmasq apache apache-config
 	@echo standard systemfiles Installed
 	mkdir -p /var/lib/danwand
 	touch /var/lib/danwand/install-system
@@ -131,23 +137,18 @@ install-system:	/var/lib/danwand/install-system
 	
 # commond danwand
 
-avahi:
-	@echo "Installing avahi services"
-	cp ./config_files/etc/avahi-danwand.service /etc/avahi/services/danwand.service
-# general danwand
-
-config-file:
+config-file:	/home/danwand
 	@echo "create configuration files"
 	test -f /etc/danwand.conf || touch /etc/danwand.conf
 	chown danwand /etc/danwand.conf
 	chmod a+rw /etc/danwand.conf
 
-danwand-lib:  user-danwand
+danwand-lib:  /home/danwand
 	mkdir -p /var/lib/danwand 
 	chown danwand:www-data /var/lib/danwand
 	chmod ug+rw /var/lib/danwand
 
-user-danwand:
+/home/danwand:
 	@echo generating danwand user
 	id danwand ||  useradd -m -u 600 -c "DanWand user" -G sudo -s /bin/bash danwand 
 	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
@@ -155,12 +156,21 @@ user-danwand:
 	sudo mkdir -p -m 700 /home/danwand/.ssh
 	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
 	sudo chown -R danwand:danwand /home/danwand/.ssh
+	sudo echo "danwand:   " | chpasswd -e
 
 hostname:
 	@echo "Setting hostname to danwand"
 	hostnamectl set-hostname danwand
 	sed -i /etc/hosts -e '/127.0.1.1/s/127.0.1.1\t.*/127.0.1.1\tdanwand/'
 	@echo hostname changed after reboot
+
+# standard services
+
+danwand-services:
+	@echo Installing danWand Services
+	cp ./config_files/systemd/* /etc/systemd/system
+	cp -r ./bin/local/* /usr/local/bin/
+	systemctl enable danwand.service
 
 # config site
 
@@ -176,7 +186,7 @@ website:	danwand-lib
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 
-configmode:	hostapd dnsmasq apache website config-file danwand-services
+configmode:	config-file danwand-services
 	@echo "Installing Configmode files"
 	apt install avahi-utils
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
@@ -188,13 +198,6 @@ configmode:	hostapd dnsmasq apache website config-file danwand-services
 # normal mode
 
 normalmode:
-	systemctl enable danwand.service
-# standard services
-
-danwand-services:
-	@echo Installing danWand Services
-	cp ./config_files/systemd/* /etc/systemd/system
-	cp -r ./bin/local/* /usr/local/bin/
 	systemctl enable danwand.service
 
 # untestet
@@ -211,20 +214,6 @@ python-req:
 	apt upgrade
 	apt-get install python3-pip
 	pip3 install -r requirements.txt
-
-# /home/pi/.ssh/id_rsa
-init-service: user-danwand config-file 
-	@echo "creating danwand service"
-	#test -d /home/danwand/init ||mkdir /home/danwand/init
-	@echo "install pip3"
-	apt-get install python3-pip
-	pip3 install -r requirements.txt
-	#cp ./bin/danwand_init.py /home/danwand/init/
-	cp ./conf/danwand.service /etc/systemd/system/
-	systemctl enable danwand.service
-	systemctl restart danwand.service
-
-users:	user-danwand 
 
 install: install-system website configmode python-req danwand-services
 	@echo "All SW Installed"
