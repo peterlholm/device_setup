@@ -27,6 +27,7 @@ import requests
 
 from systemd.journal import JournalHandler
 
+API_KEY = "92dfe5e2-e433-4935-9252-e1628f2abd83"
 PING_HOST="8.8.8.8"
 REBOOT_CONFIG_TIME = 61
 REGISTERINTERVAL = 300
@@ -97,7 +98,7 @@ def get_charge():
 def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval):
     "Create url param string"
     #global HW_MODEL, SWVERSION
-    return "deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
+    return "apikey=" + API_KEY + "&deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
             "&swversion=" + SWVERSION + "&localip=" + lipaddr + "&chargestate=" + quote_plus(str(lcharge)) + \
             "&computeserver=" + quote_plus(lcomputeserver) + \
             "&registerinterval=" + str(lregisterinterval)
