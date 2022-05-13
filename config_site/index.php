@@ -28,7 +28,8 @@
     if ($signal=="") $hidesignal="d-none";
     $internet = internet_connection()?"OK":"Error";
     $cloud_service = internet_connection(2)?"OK":"Error";
-    $charging = "Charging";
+    $charging = "d-none";
+    $charging ="";
     ?>
     <script>
     var element = document.getElementById("home");
@@ -110,8 +111,8 @@
         </div>
         <div class="col-4">
         <meter value="<?=$power?>" min="0" max="100" low="25" high="80" optimum="85" title="Charge <?=$power?>%"><?=$power?>%</meter> 
-        <img src="pic/lightning.png"/>
-        <?=$charging?>
+        <img src="pic/lightning.png" class="<?=$charging?>" height=20/>
+        
         </div>
       </div>
 

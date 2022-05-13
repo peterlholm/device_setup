@@ -9,24 +9,23 @@
 #   220504  PLH     First version
 
 
-# xpylint: disable=c-extension-no-member
+# pylint: disable=logging-not-lazy,logging-fstring-interpolation # c-extension-no-member
 
-#import os
-#from logging import exception
+import sys
+from pathlib import Path
 from asyncio import subprocess
 import platform
-#import subprocess
 import time
 import datetime
 import signal
+import logging
 import json
-#import runpy
-#import urllib.parse
 from urllib.parse import quote, quote_plus
 import configparser
 import netifaces as ni
 import requests
-#import socket
+
+from systemd.journal import JournalHandler
 
 PING_HOST="8.8.8.8"
 REBOOT_CONFIG_TIME = 61
@@ -60,11 +59,12 @@ config = configparser.ConfigParser()
 def receive_signal(signal_number, frame):
     "signal handling"
     global LOOPING      # pylint: disable=global-statement
-    print('Received Signal:', signal_number, frame)
+    logging.warning(f'Received Signal: {signal_number} {frame}')
     LOOPING = False
 
 def save_config():
     "Save configuration to config file"
+    logging.debug("saving configfile")
     with open(CONFIGFILE, 'w', encoding="UTF-8") as configfile:
         config.write(configfile)
 
@@ -81,9 +81,9 @@ def get_ip():
     "get wlan ip address"
     try:
         ni.ifaddresses('wlan0')
-    except ValueError:
-        return "1.2.3.4"
-    ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
+        ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
+    except (ValueError, KeyError):
+        ip = "1.2.3.4"
     return ip
 
 def create_url(apiserv=APISERVER):
@@ -127,7 +127,7 @@ def parse_request(data):
 
 def get_hw_measure():
     "collect dynamic hw info"
-    cmd1 = "vcgencmd measure_temp | sed -e \"s/.*=\(.*\)'C/\1/\""
+    cmd1 = r"vcgencmd measure_temp | sed -e \"s/.*=\(.*\)'C/\1/\""
     cmd2 = "vcgencmd measure_volts | sed -e \"s/.*=\(.*\)V/\1/\""
     temp = subprocess.getoutput(cmd1)
     volt = subprocess.getoutput(cmd2)
@@ -140,12 +140,23 @@ def get_hw_measure():
 
 print(datetime.datetime.now(), "DanWand init Starting")
 
+log = logging.getLogger('danwand-service')
+log.addHandler(JournalHandler())
+log.addHandler(logging.StreamHandler(sys.stdout))
+log.setLevel(logging.INFO)
+if _DEBUG:
+    log.setLevel(logging.DEBUG)
+log.info("DanWand init Starting journal")
+
 #signal.signal(signal.SIGHUP, receiveSignal)
 signal.signal(signal.SIGTERM, receive_signal)
 signal.signal(signal.SIGINT, receive_signal)
 
 serial = get_serial()
 if serial:
+    if not Path(CONFIGFILE).exists():
+        log.warning(str(CONFIGFILE) + " does not exist")
+        Path(CONFIGFILE).touch(mode=777)
     with open(CONFIGFILE, 'r', encoding="UTF-8") as fd:
         config.read_file(fd)
     if not config.has_section('device'):
@@ -171,8 +182,7 @@ while LOOPING:
         continue
     with open(CONFIGFILE, 'r', encoding="UTF-8") as fd:
         config.read_file(fd)
-    if _DEBUG:
-        print('Sections: ', config.sections())
+    log.debug('Sections: ' + str(config.sections()))
     apiserver = config['server'].get('apiserver',APISERVER)
 
     url = create_url(apiserver)
@@ -184,23 +194,21 @@ while LOOPING:
     params = create_param(deviceid, ipaddr, quote(str(charge)), computeserver, registerinterval)
     req_url = url + '?' + params
     TICK = registerinterval
-    if _DEBUG:
-        print(req_url)
+    log.debug("ReqURL: " + req_url)
     try:
         r = requests.get(req_url)
     except requests.ConnectionError as ex:
-        print(datetime.datetime.now(), "ConnectionError:", ex)
+        log.warning("ConnectionError: " + url)
+        log.debug(str(ex))
     except requests.Timeout:
-        print(datetime.datetime.now(), "TimeOut:", ex)
+        log.warning("TimeOut: " + str(ex))
     except requests.exceptions.RequestException as ex:
-        print("RequestException:", ex)
+        log.warning("RequestException: " + str(ex))
     else:
         if r:
-            print(datetime.datetime.now(),'Register')
-            print(r.text)
-            parse_request(r.text)
+            log.info('Register OK')
+            log.debug(r.text + str(parse_request(r.text)))
         else:
-            print('Noget gik galt: ', r.status_code)
-            print('URL:', req_url)
-
-print(datetime.datetime.now(), "Receive signal - closing")
+            log.warning('HTTP error: ' + str(r.status_code))
+            log.debug('URL: ' + req_url)
+log.info(str(datetime.datetime.now()) + " Receive signal - closing")
