@@ -21,6 +21,9 @@
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Change password</a>
             </li>
+            <li class="nav-item" id="debug">
+                <a class="nav-link" href="/debug/">Debug</a>
+            </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item" id="login">

@@ -194,6 +194,8 @@ configmode:	config-file danwand-services
 	cp ./config_files/etc/avahi.hosts /etc/avahi/hosts
 	#systemctl disable --now avahi-alias@wand.local.service
 	systemctl enable dw_init.service
+	systemctl enable danwand.service
+	systemctl restart  dw_init.service danwand.service
 
 # normal mode
 

@@ -93,7 +93,7 @@ def create_url(apiserv=APISERVER):
 
 def get_charge():
     "return charging dict"
-    return {'capasity': 90, 'voltage': 3.7, 'charging':True}
+    return {"capacity": 90, "voltage": 3.7, "charging":True}
 
 def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval):
     "Create url param string"
@@ -129,7 +129,7 @@ def parse_request(data):
 def get_hw_measure():
     "collect dynamic hw info"
     cmd1 = r"vcgencmd measure_temp | sed -e \"s/.*=\(.*\)'C/\1/\""
-    cmd2 = "vcgencmd measure_volts | sed -e \"s/.*=\(.*\)V/\1/\""
+    cmd2 = r"vcgencmd measure_volts | sed -e \"s/.*=\(.*\)V/\1/\""
     temp = subprocess.getoutput(cmd1)
     volt = subprocess.getoutput(cmd2)
     print (temp, volt)
@@ -139,7 +139,7 @@ def get_hw_measure():
 
 ############  starting #############
 
-print(datetime.datetime.now(), "DanWand init Starting")
+print(datetime.datetime.now(), "DanWand Service Starting")
 
 log = logging.getLogger('danwand-service')
 log.addHandler(JournalHandler())
@@ -147,7 +147,7 @@ log.addHandler(logging.StreamHandler(sys.stdout))
 log.setLevel(logging.INFO)
 if _DEBUG:
     log.setLevel(logging.DEBUG)
-log.info("DanWand init Starting journal")
+log.info("DanWand service Starting journal")
 
 #signal.signal(signal.SIGHUP, receiveSignal)
 signal.signal(signal.SIGTERM, receive_signal)
@@ -192,7 +192,7 @@ while LOOPING:
     charge = get_charge()
     computeserver = config['server'].get('computeserver',"")
     registerinterval = int(config['server'].get('registerinterval', REGISTERINTERVAL))
-    params = create_param(deviceid, ipaddr, quote(str(charge)), computeserver, registerinterval)
+    params = create_param(deviceid, ipaddr, quote(json.dumps(charge)), computeserver, registerinterval)
     req_url = url + '?' + params
     TICK = registerinterval
     log.debug("ReqURL: " + req_url)

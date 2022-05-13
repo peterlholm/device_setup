@@ -14,42 +14,21 @@
 <body>
   <?php
   require('../func.php');
+  require('../menu.php');
+
   //$aplist = get_ap_list();
   ?>
 
   <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark xbg-light">
-      <a class="navbar-brand" href="/#">
-        <img src="/pic/db_logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
-        danWand
-      </a>&nbsp;
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/wifi.php">WiFi Configuration</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/advanced.php#">Advanced</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Change password</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/debug/">Debug</a>
-          </li>
-
-        </ul>
-      </div>
-    </nav>
+  
     <div class="">
       <h3 class='text-center'>Advanced 1</h3>
+      <div class="menu">
+            <a href="function.php?function=takepic"><button class="btn fix-button menubutton smallbutton">Take Picture</button></a>
+            <a href="<?=$webservice?>pic/cam"><button class="btn fix-button menubutton smallbutton">Cam</button></a>
+            <a href="<?=$webservice?>3d/3d"><button class="btn fix-button menubutton smallbutton">3D Scan</button></a>
+        </div>
+
       <hr>
       <h3 class='text-center'>Advansed 2</h3>
  
