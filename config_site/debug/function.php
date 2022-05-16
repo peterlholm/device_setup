@@ -1,9 +1,11 @@
 <?php
 $configdir = '/etc/';
+$OS = 1;
+print(PHP_OS);
 if (PHP_OS == 'WINNT') {
     $configdir = "../conf/";
+    $OS=0;
 }
-$NEWOS = 1;
 
 $function = false;
 if (isset(($_REQUEST['function']))) {
@@ -12,18 +14,29 @@ if (isset(($_REQUEST['function']))) {
         case 'takepic':
             // Linux raspberrypi 5.10
             // exec('grep 'VERSION_ID="11"'VERSION=" /etc/os-release');
-            if ($NEWOS) {
-                print("libcam");
-                $res = exec('libcamera-still -o /var/www/danwand/tmp/pic.jpg', $out, $result);
-            } else {
-                $res = exec('sudo raspistill -o /var/www/danwand/tmp/pic.jpg', $out, $result);
+            switch($OS) {
+                case 2:
+                    print("libcam");
+                    $res = exec('libcamera-still -o /var/www/danwand/tmp/pic.jpg', $out, $result);
+                    break;
+                case 1:
+                    $res = exec('sudo raspistill -o /var/www/danwand/tmp/pic.jpg', $out, $result);
+                    if ($result != 0) {
+                        copy ('../pic/db_logo.jpg', '/tmp/pic.jpg');
+                        $result = 0;
+                    }
+                    break;
+                default:
+                    copy ('../pic/db_logo.jpg', '/tmp/pic.jpg');
+                    $res = 0;
+                    break;
             }
             echo "out: $res <br>";
             echo "Result:  $result <br>";
             if ($result==70) echo "Camara not enabled in build<br>"; 
             echo "Output:<br>".implode($out);
             //header('Location: tmp/pic.jpg');
-            header('Location: display-pic.php');
+            if ($result == 0) header('Location: display-pic.php');
             break;
         case 'takevideo':
             # MP4Box -add pivideo.h264 pivideo.mp4
@@ -44,16 +57,19 @@ if (isset(($_REQUEST['function']))) {
 }
 ?>
 <!DOCTYPE html>
-<html class="onepage">
+<html lang="uk">
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Danwand Configuration</title>
-    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='wstyle.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='http://wand.danbots.net4us.dk/wand_0.1/wstyle.css'>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danwand Configuration - debug</title>
+  <link rel="icon" href="/pic/db_logo_icon.png" type="image/png">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/site.css" />
 </head>
+
+<htmlx class="onepage"/>
 
 <body>
 <br>

@@ -168,7 +168,7 @@ hostname:
 
 danwand-services:
 	@echo Installing danWand Services
-	cp ./config_files/systemd/* /etc/systemd/system
+	cp -r ./config_files/systemd/* /etc/systemd/system
 	cp -r ./bin/local/* /usr/local/bin/
 	systemctl enable danwand.service
 

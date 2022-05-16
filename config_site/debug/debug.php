@@ -74,7 +74,7 @@
         }
         ?>
         <div class="menu">
-            <a href="function.php?function=takepic"><button class="menubutton fix-button">Take Picture</button></a>
+            <a href="function.php?function=takepic"><button class="btn btn-large menubutton btn-danger xfix-button">Take Picture</button></a>
             <a href="<?=$webservice?>pic/cam"><button class="menubutton smallbutton">Cam</button></a>
             <a href="<?=$webservice?>3d/3d"><button class="menubutton smallbutton">3D Scan</button></a>
         </div>
