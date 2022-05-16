@@ -25,7 +25,7 @@
         <div style="width: 45%; float: left">
         <img src="/tmp/pic.jpg" alt="camera picture" height="400" width="600">
         <br><br>
-        <a href="/debug.php"><button type="button" class="button" style="background-color: green">Return</button></a>
+        <a href="./index.php"><button type="button" class="btn btn-lg">Return</button></a>
         </div>
         <div style="width: 45%; float: right">
         <h3>Image info</h3>
