@@ -197,6 +197,11 @@ configmode:	config-file danwand-services
 	systemctl enable danwand.service
 	systemctl restart  dw_init.service danwand.service
 
+./bin/local/man/danwand.5	./config_files/man/danwand.5.md
+	pandoc ./config_files/man/danwand.5.md -s -t man -o ./bin/local/man/danwand.5
+
+man:	./bin/local/man/danwand.5	
+
 # normal mode
 
 normalmode:
