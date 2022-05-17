@@ -220,7 +220,7 @@ python-req:
 	apt update
 	apt upgrade
 	apt-get install python3-pip
-	apt install python3-systemd
+	apt -y install python3-systemd
 	pip3 install -r requirements.txt
 
 install: install-system website configmode python-req danwand-services
