@@ -141,7 +141,7 @@ apache-config:
 	a2dissite 000-default
 	systemctl restart apache2
 
-/var/lib/danwand/install-system: raspbian-config console debug hostapd dnsmasq apache apache-config
+/var/lib/danwand/install-system: raspbian-config console debug hostapd dnsmasq apache apache-config raspi-config
 	@echo standard systemfiles Installed
 	mkdir -p /var/lib/danwand
 	touch /var/lib/danwand/install-system
