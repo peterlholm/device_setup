@@ -49,6 +49,19 @@ std-sw:
 	apt -y install hostapd dnsmasq php apache2 libapache2-mod-php 
 	apt -y install python3-pip
 	apt upgrade
+raspi-config:
+	@echo "configure with raspi-config"
+	raspi-config nonint do_legacy 0
+	#raspi-config nonint do_hostname danwand
+	#@echo "GPU memmory"
+	#vcgencmd get_mem gpu
+	# 512 M  => max 384
+	#vcgencmd get_config hdmi_mode
+	#vcgencmd get_config disable_camera_led
+
+	#raspi-config nonint do_boot_behaviour B1
+	#raspi-config nonint do_camera 0
+	#raspi-config nonint do_i2c 0
 
 # debugging
 
@@ -133,7 +146,7 @@ apache-config:
 	a2dissite 000-default
 	systemctl restart apache2
 
-/var/lib/danwand/install-system: raspbian-config console debug hostapd dnsmasq apache apache-config
+/var/lib/danwand/install-system: raspbian-config console debug hostapd dnsmasq apache apache-config raspi-config
 	@echo standard systemfiles Installed
 	mkdir -p /var/lib/danwand
 	touch /var/lib/danwand/install-system
@@ -169,6 +182,7 @@ hostname:
 	hostnamectl set-hostname danwand
 	sed -i /etc/hosts -e '/127.0.1.1/s/127.0.1.1\t.*/127.0.1.1\tdanwand/'
 	@echo hostname changed after reboot
+	#raspi-config nonint do_hostname danwand
 
 # standard services
 
@@ -203,11 +217,11 @@ configmode:	config-file danwand-services
 	systemctl enable danwand.service
 	systemctl restart  dw_init.service danwand.service
 
-./bin/local/man/danwand.5	./config_files/man/danwand.5.md
-	pandoc ./config_files/man/danwand.5.md -s -t man -o ./bin/local/man/danwand.5
+./bin/local/man/danwand.conf.5:	./config_files/man/danwand.conf.5.md
+	pandoc ./config_files/man/danwand.conf.5.md -s -t man -o ./bin/local/man/danwand.conf.5
 
-man:	./bin/local/man/danwand.5	
-
+man:	./bin/local/man/danwand.conf.5	
+	@echo man page generated
 # normal mode
 
 normalmode:
@@ -226,7 +240,7 @@ python-req:
 	apt update
 	apt upgrade
 	apt-get install python3-pip
-	apt install python3-systemd
+	apt -y install python3-systemd
 	pip3 install -r requirements.txt
 
 install: install-system website configmode python-req danwand-services

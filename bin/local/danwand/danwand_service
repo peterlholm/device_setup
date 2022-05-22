@@ -25,7 +25,7 @@ import configparser
 import netifaces as ni
 import requests
 
-from systemd.journal import JournalHandler
+#from systemd.journal import JournalHandler
 
 API_KEY = "92dfe5e2-e433-4935-9252-e1628f2abd83"
 PING_HOST="8.8.8.8"
@@ -142,7 +142,7 @@ def get_hw_measure():
 print(datetime.datetime.now(), "DanWand Service Starting")
 
 log = logging.getLogger('danwand-service')
-log.addHandler(JournalHandler())
+#log.addHandler(JournalHandler())
 log.addHandler(logging.StreamHandler(sys.stdout))
 log.setLevel(logging.INFO)
 if _DEBUG:
