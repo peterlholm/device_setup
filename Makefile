@@ -44,6 +44,12 @@ raspbian-config:
 	systemctl enable ssh.service
 	@# dtoverlay=pi3-disable-bt
 
+std-sw:
+	apt update 
+	apt -y install hostapd dnsmasq php apache2 libapache2-mod-php 
+	apt -y install python3-pip
+	apt upgrade
+
 # debugging
 
 ipv6_disable:
