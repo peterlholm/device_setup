@@ -20,7 +20,7 @@ if (isset(($_REQUEST['function']))) {
                     $res = exec('libcamera-still -o /var/www/danwand/tmp/pic.jpg', $out, $result);
                     break;
                 case 1:
-                    $res = exec('sudo raspistill -o /var/www/danwand/tmp/pic.jpg', $out, $result);
+                    $res = exec('sudo raspistill -o /tmp/pic.jpg', $out, $result);
                     if ($result != 0) {
                         copy ('../pic/db_logo.jpg', '/tmp/pic.jpg');
                         $result = 0;

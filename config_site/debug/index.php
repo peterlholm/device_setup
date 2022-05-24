@@ -18,7 +18,6 @@
 
   $webservice = "http://" . $_SERVER['SERVER_ADDR'] . ":8080/";
  
-  //$aplist = get_ap_list();
   ?>
   <script>
     var element = document.getElementById("debug");

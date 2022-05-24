@@ -37,22 +37,6 @@
 
             $button = $_REQUEST['button'];
             switch ($button) {
-                case "register":
-                    echo "Register NOT implemented";
-                    break;
-                case 1:
-                case 2:
-                case 3:
-                    echo "Button ". $button;
-                    if (isset($config['web']['debug'.$button])) {
-                        $cmd = $config['web']['debug'.$button];
-                        echo $cmd;
-                        echo (exec($cmd, $out, $res));
-                        echo "Out:";
-                        print_r($out);
-                        echo "Result: " . $res;
-                    }
-                    break;
                 case "train1":
                 case "train2":
                 case "train3":
@@ -79,15 +63,8 @@
             <a href="<?=$webservice?>3d/3d"><button class="menubutton smallbutton">3D Scan</button></a>
         </div>
         <br>
-        <!-- <div class="menu">
-            <a href="function.php?function=button"><button class="menubutton smallbutton">Button Press</button></a>
-            <a href="function.php?function=longbutton"><button class="menubutton smallbutton">Button Long Press</button></a>
-            <a href="function.php?function=doublebutton"><button class="menubutton smallbutton">Button Double Press</button></a>
-        </div>
-        <br> -->
 
         <div class="menu">
-            <!-- <a href="debug.php?button=register"><button class="menubutton smallbutton">Register Danwand</button></a> -->
             <a href="<?=$webservice?>3d/3dias"><button class="menubutton smallbutton">Take Training Set</button></a>
             <a href="function.php?function=takevideo"><button class="menubutton smallbutton">Take Video</button></a>
             <a href="display.php?function=log&file=/var/log/syslog"><button class="menubutton smallbutton">Syslog</button></a>
