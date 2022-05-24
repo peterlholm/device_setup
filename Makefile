@@ -206,7 +206,7 @@ website:	danwand-lib
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 
-configmode:	config-file danwand-services
+configmode:	config-file danwand-services python-req
 	@echo "Installing Configmode files"
 	apt install avahi-utils
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
