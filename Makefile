@@ -238,7 +238,7 @@ camera-util:	/boot/dt-blob.bin
 python-req:
 	@echo "install pip3 and requirements"
 	apt update
-	apt upgrade
+	apt -y upgrade
 	apt-get install python3-pip
 	apt -y install python3-systemd
 	pip3 install -r requirements.txt
