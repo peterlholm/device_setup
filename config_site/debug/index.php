@@ -25,21 +25,32 @@
   </script>
 
   <div class="container">
-  
-    <div class="">
-      <h3 class='text-center'>Advanced 1cc</h3>
-      <div class="menu">
-            <a href="function.php?function=takepic"><button class="btn btn-lg fix-button">Take Picture</button></a>
-            <a href="<?=$webservice?>pic/cam"><button class="btn btn-lg fix-button">Cam</button></a>
-            <a href="<?=$webservice?>3d/3d"><button class="btn btn-lg fix-button">3D Scan</button></a>
-        </div>
-
-      <hr>
-      <h3 class='text-center'>Advansed 2</h3>
- 
+    <h3 class='text-center'>Debug</h3>
+    <div class="row">
+      <a href="function.php?function=takepic" class="btn btn-lg btn-primary fix-button">Take Picture</a>
+      <a href="<?=$webservice?>pic/cam"><button class="btn btn-lg btn-primary fix-button">Cam</button></a>
+      <a href="<?=$webservice?>3d/3d"><button class="btn btn-lg btn-primary fix-button">3D Scan</button></a>
     </div>
-  </div>
-  <script src="/js/bootstrap.min.js"></script>
+    <div class="row">
+      <a href="display.php?function=log&file=/var/log/apache2/danwand.log"
+        class="btn btn-lg btn-primary fix-button">Website log</a>
+      <a href="display.php?function=log&file=/var/log/apache2/danwand.err.log"
+        class="btn btn-lg btn-primary fix-button">Website error log</a>
+      <a href="display.php?function=log&file=/var/log/apache2/error.log"
+        class="btn btn-lg btn-primary fix-button">Apache error log</a>
+    </div>
+    <br>
+    <div class="row">
+      <a href="display.php?function=log&file=/var/log/webservice.log"
+        class="btn btn-lg btn-primary fix-button">Webservice Log</a>
+      <a href="display.php?function=log&file=/var/log/danwand.log" class="btn btn-lg btn-primary fix-button">DanWand
+        log</a>
+    </div>
+    <hr>
+    <div class="row">
+      <a href="/" class="btn btn-lg btn-primary fix-button">Return</a>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 
 </html>

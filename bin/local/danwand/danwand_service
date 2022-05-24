@@ -42,7 +42,7 @@ POWER_CAMERA_ACTIVE = 1.5
 SWVERSION = "0.2.0"
 LOOPING = True
 
-_DEBUG = True
+_DEBUG = False
 
 def get_hw_info():
     "Return the raspberry hw string"
