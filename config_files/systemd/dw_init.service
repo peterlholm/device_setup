@@ -10,7 +10,7 @@ After=network.target
 StartLimitIntervalSec=30
 
 [Service]
-Type=simple
+Type=idle
 Restart=on-failure
 RestartSec=10
 User=root
