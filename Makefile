@@ -44,6 +44,11 @@ raspbian-config:
 	systemctl enable ssh.service
 	@# dtoverlay=pi3-disable-bt
 
+std-sw:
+	apt update 
+	apt -y install hostapd dnsmasq php apache2 libapache2-mod-php 
+	apt -y install python3-pip
+	apt upgrade
 raspi-config:
 	@echo "configure with raspi-config"
 	raspi-config nonint do_legacy 0
@@ -201,7 +206,7 @@ website:	danwand-lib
 	touch /var/log/apache2/config.err.log /var/log/apache2/config.log
 	chmod o+r /var/log/apache2/config.err.log /var/log/apache2/config.log
 
-configmode:	config-file danwand-services
+configmode:	config-file danwand-services python-req
 	@echo "Installing Configmode files"
 	apt install avahi-utils
 	cp ./config_files/etc/dw_dhcpcd.conf /etc
