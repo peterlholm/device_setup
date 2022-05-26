@@ -11,63 +11,64 @@
   <link rel="stylesheet" type="text/css" href="/css/site.css" />
 </head>
 
-<htmls class="onepage"/>
+<html class="xonepage" />
 
 <body>
-    <div class="container">
-        <?php
+  <div class="container">
+    <?php
         if (PHP_OS == 'WINNT') {
             $config_dir = "config";
         }
         ?>
-        <h1>Camera Picture</h1>
+    <h1>Camera Picture</h1>
+    <div class="row">
+      <div class="col">
         <br>
-        <div style="width: 45%; float: left">
-        <img src="/tmp/pic.jpg" alt="camera picture" height="400" width="600">
+
+        <img src="/tmp/pic.jpg" alt="camera picture" class="img-fluid" xheight="400" xwidth="600">
         <br><br>
         <a href="./index.php"><button type="button" class="btn btn-lg">Return</button></a>
-        </div>
-        <div style="width: 45%; float: right">
-        <h3>Image info</h3>
+
+      </div>
+      <div class="col">
         <?php
 
-function print_table($tab)
-{
-  echo "Table<br>";
-  foreach ($tab as $p => $d) {
-    echo "<h3>$p</h3>";
-    echo "<table>\n";
-    foreach ($d as $ep => $e) {
-      if (gettype($e) == 'array');
-      echo "<tr><td>$ep</td><td>$e</td></tr>\n";
-    }
-    echo "</table>\n";
-  }
-}
+        function print_table($tab)
+          {
+            echo "Table<br>";
+            foreach ($tab as $p => $d) {
+              echo "<h5>$p</h5>";
+              echo "<table>\n";
+              foreach ($d as $ep => $e) {
+                if (gettype($e) == 'array');
+                echo "<tr><td>$ep</td><td>$e</td></tr>\n";
+              }
+              echo "</table>\n";
+            }
+          }
 
-$img = "/var/www/danwand/tmp/pic.jpg";
-$data = exif_read_data($img, NULL, true);
+          $img = "/tmp/pic.jpg";
+          $data = exif_read_data($img, NULL, true);
 
-foreach ($data as $p => $d) {
-  echo "<h3>$p</h3>";
-  echo "<table>\n";
-  foreach ($d as $ep => $e) {
-    if (gettype($e) == 'array') {
-      echo "<tr><td>array</td></tr>";
-    } else {
-            echo "<tr><td>$ep</td><td>$e</td></tr>\n";
+          foreach ($data as $p => $d) {
+            echo "<h4>$p</h4>";
+            echo "<table>\n";
+            foreach ($d as $ep => $e) {
+              if (gettype($e) == 'array') {
+                echo "<tr><td>array</td></tr>";
+              } else {
+                      echo "<tr><td>$ep</td><td>$e</td></tr>\n";
 
-    }
-  }
-  echo "</table>\n";
+              }
+            }
+            echo "</table>\n";
 
-}
-//print_r($data);
+          }
+          //print_r($data);
 
 
-?>
-
+          ?>
+      </div>
     </div>
-</body>
 
 </html>
