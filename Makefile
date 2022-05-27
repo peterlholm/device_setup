@@ -22,11 +22,13 @@ help :
 	@echo "make ipv6-disable\t,Disable ipv6"
 	@echo "make website\tinstall website"
 	@echo "make camera-util\tInstall camera dt-blop"
+	@echo "make get-sw\tGet other sw to $HOME"
 	@echo "--"
 	@echo "make service\tinstall register service"
 	@echo "make python\tinstall Phython requirements"
 	@echo "make changehostname\tset new hostname"	
 	@echo "make debugtools\tinstall debug sw"
+
 
 
 # adjust raspian service
@@ -233,7 +235,8 @@ camera-util:	/boot/dt-blob.bin
 	echo camera utils in place
 	
 /boot/dt-blob.bin:
-	sudo wget https://datasheets.raspberrypi.org/cmio/dt-blob-cam1.bin -O /boot/dt-blob.bin
+	sudo cp bin/dt-blob-cam1.bin /boot/dt-blob.bin
+	#sudo wget https://datasheets.raspberrypi.org/cmio/dt-blob-cam1.bin -O /boot/dt-blob.bin
 
 python-req:
 	@echo "install pip3 and requirements"
@@ -244,4 +247,10 @@ python-req:
 	pip3 install -r requirements.txt
 
 install: install-system camera-util website configmode python-req danwand-services
+get-sw:
+	@echo "Getting other sw from github"
+	git clone https://github.com/peterlholm/dw $HOME/dw
+	git clone https://github.com/peterlholm/danbots-webserv $HOME/webserv
+	
+install: install-system website configmode python-req danwand-services
 	@echo "All SW Installed"
