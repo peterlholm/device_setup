@@ -25,6 +25,15 @@ import configparser
 import netifaces as ni
 import requests
 
+sys.path.insert(0,'/usr/local/danwand/lib')
+
+#import battery
+
+from battery import battery as bat
+
+mybat = bat.Battery
+
+print (mybat.voltage)
 #from systemd.journal import JournalHandler
 
 API_KEY = "92dfe5e2-e433-4935-9252-e1628f2abd83"
