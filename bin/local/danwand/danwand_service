@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"danwand service"
 #
 # danwand init server
 #
@@ -13,7 +14,7 @@
 
 import sys
 from pathlib import Path
-from asyncio import subprocess
+import subprocess
 import platform
 import time
 import datetime
@@ -29,11 +30,11 @@ sys.path.insert(0,'/usr/local/danwand/lib')
 
 #import battery
 
-from battery import battery as bat
+#from battery import battery as bat
 
-mybat = bat.Battery
+#mybat = bat.Battery
 
-print (mybat.voltage)
+#print (mybat.voltage)
 #from systemd.journal import JournalHandler
 
 API_KEY = "92dfe5e2-e433-4935-9252-e1628f2abd83"
@@ -91,10 +92,10 @@ def get_ip():
     "get wlan ip address"
     try:
         ni.ifaddresses('wlan0')
-        ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
+        ipaddr = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
     except (ValueError, KeyError):
-        ip = "1.2.3.4"
-    return ip
+        ipaddr = "1.2.3.4"
+    return ipaddr
 
 def create_url(apiserv=APISERVER):
     "Create regiser url"
@@ -104,13 +105,15 @@ def get_charge():
     "return charging dict"
     return {"capacity": 90, "voltage": 3.7, "charging":True}
 
-def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval):
+def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval, extrainfo=None):
     "Create url param string"
     #global HW_MODEL, SWVERSION
-    return "apikey=" + API_KEY + "&deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
+    param = "apikey=" + API_KEY + "&deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
             "&swversion=" + SWVERSION + "&localip=" + lipaddr + "&chargestate=" + quote_plus(str(lcharge)) + \
             "&computeserver=" + quote_plus(lcomputeserver) + \
             "&registerinterval=" + str(lregisterinterval)
+    param += "&extrainfo=" + quote_plus(str(extrainfo))
+    return param
 
 def parse_request(data):
     "parse register response data"
@@ -134,16 +137,18 @@ def parse_request(data):
 #     if config.has_section('debug'):
 #         if config['debug'].get('DIASLED',None):
 #             pass
+def run_out(cmd):
+    "run command and return output"
+    job = subprocess.run(cmd, capture_output=True, check=False, shell=True )
+    return job.stdout
 
 def get_hw_measure():
     "collect dynamic hw info"
-    cmd1 = r"vcgencmd measure_temp | sed -e \"s/.*=\(.*\)'C/\1/\""
-    cmd2 = r"vcgencmd measure_volts | sed -e \"s/.*=\(.*\)V/\1/\""
-    temp = subprocess.getoutput(cmd1)
-    volt = subprocess.getoutput(cmd2)
-    print (temp, volt)
+    cmd1 = r"vcgencmd measure_temp | sed -e 's/.*=\(.*\).C.*/\1/'"
+    temp = float(run_out(cmd1))
+    cmd2 = r"vcgencmd measure_volts | sed -e 's/.*=\(.*\)V/\1/'"
+    volt = float(run_out(cmd2))   
     measure = {"temp": temp, "volt": volt}
-    print(measure)
     return measure
 
 ############  starting #############
@@ -197,11 +202,13 @@ while LOOPING:
 
     url = create_url(apiserver)
     deviceid = config['device']['DeviceID']
-    ipaddr = get_ip()
+    ip_addr = get_ip()
     charge = get_charge()
+    hwstate = get_hw_info()
+    hw_state = get_hw_measure()
     computeserver = config['server'].get('computeserver',"")
     registerinterval = int(config['server'].get('registerinterval', REGISTERINTERVAL))
-    params = create_param(deviceid, ipaddr, quote(json.dumps(charge)), computeserver, registerinterval)
+    params = create_param(deviceid, ip_addr, quote(json.dumps(charge)), computeserver, registerinterval, extrainfo=hw_state)
     req_url = url + '?' + params
     TICK = registerinterval
     log.debug("ReqURL: " + req_url)
