@@ -257,11 +257,10 @@ python-req:
 	apt -y install python3-systemd
 	pip3 install -r requirements.txt
 
-install: install-system camera-util website configmode python-req danwand-services
 get-sw:
 	@echo "Getting other sw from github"
 	git clone https://github.com/peterlholm/dw $HOME/dw
 	git clone https://github.com/peterlholm/danbots-webserv $HOME/webserv
 	
-install: install-system website configmode python-req danwand-services
+install: install-system camera-util website configmode python-req danwand-services
 	@echo "All SW Installed"
