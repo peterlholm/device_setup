@@ -5,7 +5,7 @@
 #
 
 CONFDIR=conf
-HOME=/home/danwand
+#HOME=/home/danwand
 BACKUPDIR=$(HOME)/backupconf
 WEBSITEDIR=/var/www/danwand
 
@@ -259,8 +259,8 @@ python-req:
 
 get-sw:
 	@echo "Getting other sw from github"
-	git clone https://github.com/peterlholm/dw $HOME/dw
-	git clone https://github.com/peterlholm/danbots-webserv $HOME/webserv
+	git clone https://github.com/peterlholm/dw $$HOME/dw
+	git clone https://github.com/peterlholm/danbots-webserv $$HOME/webserv
 	
 install: install-system camera-util website configmode python-req danwand-services
 	@echo "All SW Installed"
