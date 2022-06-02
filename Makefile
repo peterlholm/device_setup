@@ -105,7 +105,7 @@ system-access:
 	mkdir -p /var/lib/danwand
 	touch /var/lib/danwand/install-system
 
-install-system:	/var/lib/danwand/install-system
+install-system:	/var/lib/danwand/install-system user-peter
 	@echo System files Installed
 
 # debugging
@@ -137,7 +137,7 @@ user-peter:
 	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
 	usermod -a -G gpio,video peter
 	mkdir -p -m 700 /home/peter/.ssh
-	cp ./config_files/user/authorized_keys.danwand /home/peter/.ssh
+	cp ./config_files/user/authorized_keys.danwand /home/peter/.ssh/authorized_keys
 	chown -R peter:peter /home/peter/.ssh
 	echo 'peter:$$y$$j9T$$fYZ6197tL0JqTSwlaYIiJ.$$d8c76GlKjJVKxcKTv7CZ8CWEIC8xf3ZtkpJcUKC4ZT8' | chpasswd -e
 
