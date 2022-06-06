@@ -263,5 +263,5 @@ get-sw:
 	git clone https://github.com/peterlholm/dw $$HOME/dw
 	git clone https://github.com/peterlholm/danbots-webserv $$HOME/webserv
 	
-install: install-system camera-util website configmode python-req danwand-services
+install: install-system camera-util website configmode python-req danwand-services debug
 	@echo "All SW Installed"
