@@ -137,8 +137,9 @@ user-peter:
 	test -f /etc/sudoers.d/020_peter || echo "peter ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_peter
 	usermod -a -G gpio,video peter
 	mkdir -p -m 700 /home/peter/.ssh
-	cp ./config_files/user/authorized_keys.danwand /home/peter/.ssh/authorized_keys
+	cp ./config_files/user/id_rsa_danwand.pub /home/peter/.ssh/authorized_keys
 	chown -R peter:peter /home/peter/.ssh
+	chmod 600 /home/peter/.ssh/authorized_keys
 	echo 'peter:$$y$$j9T$$fYZ6197tL0JqTSwlaYIiJ.$$d8c76GlKjJVKxcKTv7CZ8CWEIC8xf3ZtkpJcUKC4ZT8' | chpasswd -e
 
 user-alexander:
