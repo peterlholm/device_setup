@@ -28,13 +28,6 @@ import requests
 
 sys.path.insert(0,'/usr/local/danwand/lib')
 
-#import battery
-
-#from battery import battery as bat
-
-#mybat = bat.Battery
-
-#print (mybat.voltage)
 #from systemd.journal import JournalHandler
 
 API_KEY = "92dfe5e2-e433-4935-9252-e1628f2abd83"
@@ -51,6 +44,15 @@ POWER_WIFI_IDLE = 0.9
 POWER_CAMERA_ACTIVE = 1.5
 SWVERSION = "0.2.0"
 LOOPING = True
+HWLIB_ENABLE=True
+
+try:
+    from battery import battery as bat
+except IOError:
+    HWLIB_ENABLE=False
+if HWLIB_ENABLE:
+    mybat = bat.Battery
+    print (mybat.voltage)
 
 _DEBUG = False
 
@@ -64,7 +66,6 @@ def get_hw_info():
     return hw_info
 
 HW_MODEL = quote_plus(get_hw_info())
-
 config = configparser.ConfigParser()
 
 def receive_signal(signal_number, frame):
@@ -132,12 +133,7 @@ def parse_request(data):
     # if update:
     #     save_config()
 
-# def check_debug(config):
-#     "set debug modes"
-#     if config.has_section('debug'):
-#         if config['debug'].get('DIASLED',None):
-#             pass
-def run_out(cmd):
+def get_cmd_out(cmd):
     "run command and return output"
     job = subprocess.run(cmd, capture_output=True, check=False, shell=True )
     return job.stdout
@@ -145,9 +141,12 @@ def run_out(cmd):
 def get_hw_measure():
     "collect dynamic hw info"
     cmd1 = r"vcgencmd measure_temp | sed -e 's/.*=\(.*\).C.*/\1/'"
-    temp = float(run_out(cmd1))
     cmd2 = r"vcgencmd measure_volts | sed -e 's/.*=\(.*\)V/\1/'"
-    volt = float(run_out(cmd2))   
+    try:
+        temp = float(get_cmd_out(cmd1))
+        volt = float(get_cmd_out(cmd2))
+    except:
+        temp = volt = 0
     measure = {"temp": temp, "volt": volt}
     return measure
 
@@ -161,6 +160,7 @@ log.addHandler(logging.StreamHandler(sys.stdout))
 log.setLevel(logging.INFO)
 if _DEBUG:
     log.setLevel(logging.DEBUG)
+    print("Setting Debug Level")
 log.info("DanWand service Starting journal")
 
 #signal.signal(signal.SIGHUP, receiveSignal)
