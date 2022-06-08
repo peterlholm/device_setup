@@ -11,7 +11,7 @@
 
 
 # pylint: disable=logging-not-lazy,logging-fstring-interpolation # c-extension-no-member
-
+import os
 import sys
 from pathlib import Path
 import subprocess
@@ -35,7 +35,7 @@ PING_HOST="8.8.8.8"
 REBOOT_CONFIG_TIME = 61
 REGISTERINTERVAL = 300
 APISERVER = "http://api.danbots.com/api/"
-COMPUTESERVER = "http://compute.danbots.com/"
+COMPUTESERVER = "http://compute.danbots.com/api/"
 REGISTERPATH = "register"
 CONFIGFILE = "E:\\danwand.conf" if platform.system().lower()=='windows' else "/etc/danwand.conf"
 INTERFACE = 'wlan0'
@@ -44,15 +44,16 @@ POWER_WIFI_IDLE = 0.9
 POWER_CAMERA_ACTIVE = 1.5
 SWVERSION = "0.2.0"
 LOOPING = True
-HWLIB_ENABLE=True
+HWLIB_ENABLE=False
 
-try:
-    from battery import battery as bat
-except IOError:
-    HWLIB_ENABLE=False
 if HWLIB_ENABLE:
-    mybat = bat.Battery
-    print (mybat.voltage)
+    try:
+        from battery import battery as bat
+    except IOError:
+        HWLIB_ENABLE=False
+    if HWLIB_ENABLE:
+        mybat = bat.Battery
+        print (mybat.voltage)
 
 _DEBUG = False
 
@@ -112,7 +113,8 @@ def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval,
     param = "apikey=" + API_KEY + "&deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
             "&swversion=" + SWVERSION + "&localip=" + lipaddr + "&chargestate=" + quote_plus(str(lcharge)) + \
             "&computeserver=" + quote_plus(lcomputeserver) + \
-            "&registerinterval=" + str(lregisterinterval)
+            "&registerinterval=" + str(lregisterinterval) + \
+            "&hostname=" + str(hostname)
     param += "&extrainfo=" + quote_plus(str(extrainfo))
     return param
 
@@ -152,7 +154,9 @@ def get_hw_measure():
 
 ############  starting #############
 
-print(datetime.datetime.now(), "DanWand Service Starting")
+
+hostname = os.uname()[1]
+print(datetime.datetime.now(), "DanWand Service Starting on ", hostname)
 
 log = logging.getLogger('danwand-service')
 #log.addHandler(JournalHandler())
