@@ -35,7 +35,7 @@ PING_HOST="8.8.8.8"
 REBOOT_CONFIG_TIME = 61
 REGISTERINTERVAL = 300
 APISERVER = "http://api.danbots.com/api/"
-COMPUTESERVER = "http://compute.danbots.com"
+COMPUTESERVER = "http://compute.danbots.com/"
 REGISTERPATH = "register"
 CONFIGFILE = "E:\\danwand.conf" if platform.system().lower()=='windows' else "/etc/danwand.conf"
 INTERFACE = 'wlan0'
