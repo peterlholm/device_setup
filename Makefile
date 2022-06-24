@@ -208,7 +208,7 @@ danwand-services:
 
 # config site
 
-website:	danwand-lib
+website:	danwand-lib apache-config
 	@echo "Installing config site"
 	rm -fr /var/www/config
 	cp -r ./config_site /var/www/config
