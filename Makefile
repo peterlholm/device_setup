@@ -185,7 +185,7 @@ danwand-lib:  /home/danwand
 	test -f /etc/sudoers.d/020_danwand || echo "danwand ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/020_danwand
 	sudo usermod -a -G gpio,video danwand
 	sudo mkdir -p -m 700 /home/danwand/.ssh
-	sudo cp ./config_files/user/authorized_keys /home/danwand/.ssh
+	sudo cp ./config_files/user/authorized_keys.danwand /home/danwand/.ssh
 	sudo chown -R danwand:danwand /home/danwand/.ssh
 	sudo echo "danwand:   " | chpasswd -e
 
