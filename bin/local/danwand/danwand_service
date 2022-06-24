@@ -107,7 +107,7 @@ def get_charge():
     "return charging dict"
     return {"capacity": 90, "voltage": 3.7, "charging":True}
 
-def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval, extrainfo=None):
+def create_param(ldeviceid, lipaddr, lcharge, lcomputeserver, lregisterinterval, extrainfo=None):   # pylint: disable=too-many-arguments
     "Create url param string"
     #global HW_MODEL, SWVERSION
     param = "apikey=" + API_KEY + "&deviceid=" + ldeviceid + "&hwmodel=" + HW_MODEL + \
@@ -147,7 +147,7 @@ def get_hw_measure():
     try:
         temp = float(get_cmd_out(cmd1))
         volt = float(get_cmd_out(cmd2))
-    except:
+    except ValueError:
         temp = volt = 0
     measure = {"temp": temp, "volt": volt}
     return measure
@@ -156,7 +156,7 @@ def get_hw_measure():
 
 
 hostname = os.uname()[1]
-print(datetime.datetime.now(), "DanWand Service Starting on ", hostname)
+print("DanWand Service Starting on ", hostname)
 
 log = logging.getLogger('danwand-service')
 #log.addHandler(JournalHandler())
@@ -165,7 +165,7 @@ log.setLevel(logging.INFO)
 if _DEBUG:
     log.setLevel(logging.DEBUG)
     print("Setting Debug Level")
-log.info("DanWand service Starting journal")
+log.info(f"DanWand service Starting on {hostname}")
 
 #signal.signal(signal.SIGHUP, receiveSignal)
 signal.signal(signal.SIGTERM, receive_signal)
@@ -193,11 +193,13 @@ if serial:
 
 #get_hw_measure()
 
-TICK = 0
+TICK = 5
 while LOOPING:
-    TICK -= 5
+    #TICK -= 5
     if TICK > 0:
         time.sleep(5)
+        TICK -= 1
+        #print("Tick", TICK)
         continue
     with open(CONFIGFILE, 'r', encoding="UTF-8") as fd:
         config.read_file(fd)
@@ -214,7 +216,7 @@ while LOOPING:
     registerinterval = int(config['server'].get('registerinterval', REGISTERINTERVAL))
     params = create_param(deviceid, ip_addr, quote(json.dumps(charge)), computeserver, registerinterval, extrainfo=hw_state)
     req_url = url + '?' + params
-    TICK = registerinterval
+    TICK = registerinterval / 5
     log.debug("ReqURL: " + req_url)
     try:
         r = requests.get(req_url)
