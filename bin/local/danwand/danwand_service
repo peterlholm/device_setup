@@ -9,8 +9,9 @@
 #
 #   220504  PLH     First version
 
-
 # pylint: disable=logging-not-lazy,logging-fstring-interpolation # c-extension-no-member
+# pylint: disable=invalid-name
+
 import os
 import sys
 from pathlib import Path
@@ -46,14 +47,14 @@ SWVERSION = "0.2.0"
 LOOPING = True
 HWLIB_ENABLE=False
 
-if HWLIB_ENABLE:
-    try:
-        from battery import battery as bat
-    except IOError:
-        HWLIB_ENABLE=False
-    if HWLIB_ENABLE:
-        mybat = bat.Battery
-        print (mybat.voltage)
+# if HWLIB_ENABLE:
+#     try:
+#         from battery import battery as bat
+#     except IOError:
+#         HWLIB_ENABLE=False
+#     if HWLIB_ENABLE:
+#         mybat = bat.Battery
+#         print (mybat.voltage)
 
 _DEBUG = False
 
@@ -192,7 +193,7 @@ if serial:
 # check_debug(config)
 
 #get_hw_measure()
-
+connection_error = False
 TICK = 5
 while LOOPING:
     #TICK -= 5
@@ -204,8 +205,10 @@ while LOOPING:
     with open(CONFIGFILE, 'r', encoding="UTF-8") as fd:
         config.read_file(fd)
     log.debug('Sections: ' + str(config.sections()))
-    apiserver = config['server'].get('apiserver',APISERVER)
-
+    if connection_error:
+        apiserver = APISERVER
+    else:
+        apiserver = config['server'].get('apiserver',APISERVER)
     url = create_url(apiserver)
     deviceid = config['device']['DeviceID']
     ip_addr = get_ip()
@@ -223,11 +226,14 @@ while LOOPING:
     except requests.ConnectionError as ex:
         log.warning("ConnectionError: " + url)
         log.debug(str(ex))
+        connection_error = True
+        TICK = -1
     except requests.Timeout:
         log.warning("TimeOut: " + str(ex))
     except requests.exceptions.RequestException as ex:
         log.warning("RequestException: " + str(ex))
     else:
+        connection_error = False
         if r:
             log.info('Register OK')
             log.debug(r.text + str(parse_request(r.text)))
